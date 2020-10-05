@@ -1,5 +1,6 @@
 #comma-separated list of sample names and their class 
 #(either control, case, validate_case, or validate_control)
+#Can optionally include a column with a batch number
 #eg:
 #S036_CTRL,control
 #S037_CTRL,control
