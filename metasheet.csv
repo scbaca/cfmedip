@@ -1,0 +1,27 @@
+#comma-separated list of sample names and their class 
+#(either control, case, validate_case, or validate_control)
+#eg:
+#S036_CTRL,control
+#S037_CTRL,control
+#S038_CTRL,control
+#B1,case
+#B2,case
+#B3,case
+
+SampleName,Type,Class,Batch
+J17,PRAD,case,1
+J18,PRAD,case,1
+J19,PRAD,case,1
+J20,PRAD,case,1
+J21,PRAD,case,1
+J22,PRAD,case,1
+#J23,Control,control,1
+J24,Control,control,1
+J25,Control,control,1
+J26,Control,control,1
+#J27,Control,control,1
+J28,Control,control,1
+J29,Control,control,1
+J30,Control,control,1
+J31,Control,control,1
+J32,Control,control,1

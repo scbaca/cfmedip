@@ -1,0 +1,32 @@
+{
+    "__default__":
+    {
+        "partition": "short",
+        "mem": "4G",
+        "time": "04:00:00"
+    },
+    "align":
+    {
+        "partition": "medium",
+        "time": "24:00:00",
+        "mem": "32G"
+    },
+    "DMRs":
+    {
+        "partition": "short",
+        "time": "8:00:00",
+        "mem": "32G"
+    },
+    "medips":
+    {
+        "partition": "short",
+        "time": "6:00:00",
+        "mem": "32G"
+    },
+    "group_plots":
+    {
+        "partition": "short",
+        "time": "6:00:00",
+        "mem": "32G"
+    }
+}

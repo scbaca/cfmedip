@@ -1,0 +1,76 @@
+#file with sample annotations:
+# !! currently, samples in config.yaml and metasheet.csv need to list the same samples
+#  in the same order for some of the modules to work properly
+# pathnames also need to be absolute, not relative
+
+metasheet: 'metasheet.csv'
+
+#run name:
+run: 'highrisk_prad_vs_control'
+
+#files used by MeDIPs for calucating CpG enrichment. To generate on the fly, set to ""
+genome_relH: ref_files/bsgenome.hsapiens.ucsc.hg19_relH.rds
+genome_GoGe: ref_files/bsgenome.hsapiens.ucsc.hg19_GoGe.rds
+
+#number of iterations used for cross validation:
+iterations: 100
+
+#bed file specifying regions to remove from consideration
+blacklist: 'ref_files/hg19-blacklist.v2.bed'
+
+#up-DMRs in training set must overlap with these:
+restrict_up: 'tmp.bed' #### update
+
+#down-DMRs in training set must overlap with these:
+restrict_down: 'tmp2.bed' #### update
+
+#samples can be paired end fastq files or medips files. can theoretically mix these, but hasn't been tested
+samples:
+  J17:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J17_CKDL200161515-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J17_CKDL200161515-1a_HCHNCBBXX_L1_2.fq.gz
+  J18:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J18_CKDL200161516-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J18_CKDL200161516-1a_HCHNCBBXX_L1_2.fq.gz
+  J19:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J19_CKDL200161517-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J19_CKDL200161517-1a_HCHNCBBXX_L1_2.fq.gz
+  J20:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J20_CKDL200161518-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J20_CKDL200161518-1a_HCHNCBBXX_L1_2.fq.gz
+  J21:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J21_CKDL200161519-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J21_CKDL200161519-1a_HCHNCBBXX_L1_2.fq.gz
+  J22:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J22_CKDL200161520-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J22_CKDL200161520-1a_HCHNCBBXX_L1_2.fq.gz
+  J23:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J23_CKDL200161521-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J23_CKDL200161521-1a_HCHNCBBXX_L1_2.fq.gz
+  J24:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J24_CKDL200161522-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J24_CKDL200161522-1a_HCHNCBBXX_L1_2.fq.gz
+  J25:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J25_CKDL200161523-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J25_CKDL200161523-1a_HCHNCBBXX_L1_2.fq.gz
+  J26:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J26_CKDL200161524-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J26_CKDL200161524-1a_HCHNCBBXX_L1_2.fq.gz
+  J27:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J27_CKDL200161525-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J27_CKDL200161525-1a_HCHNCBBXX_L1_2.fq.gz
+  J28:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J28_CKDL200161526-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J28_CKDL200161526-1a_HCHNCBBXX_L1_2.fq.gz
+  J29:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J29_CKDL200161527-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J29_CKDL200161527-1a_HCHNCBBXX_L1_2.fq.gz
+  J30:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J30_CKDL200161528-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J30_CKDL200161528-1a_HCHNCBBXX_L1_2.fq.gz
+  J31:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J31_CKDL200161529-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J31_CKDL200161529-1a_HCHNCBBXX_L1_2.fq.gz
+  J32:
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J32_CKDL200161530-1a_HCHNCBBXX_L1_1.fq.gz
+    - /n/scratch3/users/s/scb20/medips/workflow/data/J32_CKDL200161530-1a_HCHNCBBXX_L1_2.fq.gz
