@@ -10,24 +10,11 @@ args = commandArgs( trailingOnly = TRUE )
 out.dir=args[1]
 metasheet=args[2]
 iter=args[3]
-# --- tmp - will remove this once incorporated into snakemake workflow:
-#out.dir="analysis/dmrs/cf_nepc_vs_prad"
-#out.dir="analysis/dmrs/lucap_cf_nepc_vs_prad"
-#out.dir="analysis/dmrs/lucap_cf_nepc_vs_prad_train_test_hiconf"
-#out.dir="analysis/dmrs/lucap_cf_nepc_vs_prad_train_test"
-#out.dir="analysis/dmrs/lucap_cf_nepc_vs_prad_train_test_batch6"
-#metasheet="run_files/metasheet.csv.lucap_cf_nepc_vs_prad_train_test_hiconf"
-#metasheet="run_files/metasheet.csv.lucap_cf_nepc_vs_prad_train_test"
-#metasheet="metasheet.csv"
-# --- end tmp
 
 # read sample annotations in metasheet file
 meta=read.table(metasheet, header=T, sep=",")
-
 files = c()
-# for(i in sprintf("%03d", 1:100)){files <- c(files,paste0(out.dir,"/iter.",i,"/sample_prob_table.tsv"))}
-# for(i in sprintf("%03d", 1:50)){files <- c(files,paste0(out.dir,"/iter.",i,"/sample_prob_table.tsv"))} #tmp
-for(i in sprintf("%03d", 1:iter)){files <- c(files,paste0(out.dir,"/iter.",i,"/sample_prob_table.tsv"))} #tmp
+for(i in sprintf("%03d", 1:iter)){files <- c(files,paste0(out.dir,"/iter.",i,"/sample_prob_table.tsv"))}
 
 theme_set(theme_bw())
 
@@ -48,7 +35,6 @@ tmp$iteration = substr(tmp$filename, idx+1, idx+3)
 
 tmp$SampleName = tmp$sample_name %>% 
   stringr::str_replace(".dedup.bam","") %>% 
-#  stringr::str_replace(".dedup.bam.counts","") %>% 
   stringr::str_replace("case_","") %>% 
   stringr::str_replace("control_","")
 
@@ -57,10 +43,8 @@ tmp = merge(tmp, meta[,c("SampleName", "Type")])
 #auc table
 auc_summary <- tmp %>%
   group_by(iteration,Type) %>%
-#  group_by(iteration,Stage) %>%
   summarize(auc=unique(auc)) %>%
   group_by(Type) %>%
-#  group_by(Stage) %>%
   summarize(meanAUC = mean(auc, na.rm = TRUE),
             sdAUC = sd(auc, na.rm = TRUE),
             n = n(),
@@ -69,30 +53,13 @@ auc_summary <- tmp %>%
 auc_summary
 
 
-#tmp
-auc_summary <- tmp %>%                                        
-  summarize(meanAUC = mean(auc, na.rm = TRUE),                
-            sdAUC = sd(auc, na.rm = TRUE),                    
-            n = n(),                                          
-            lowerAUC = max(0, meanAUC - qnorm(0.975)*sdAUC/sqrt(n)),        
-            upperAUC = min(meanAUC + qnorm(0.975)*sdAUC/sqrt(n), 1))        
-auc_summary  
-#end tmp
-
-#(need to define out.dir)
 write.table(format(data.frame(auc_summary), digits=3), quote=FALSE, row.names=FALSE, sep="\t",
   file=file.path(out.dir, "auc_summary_100iter.txt"))
 
-
 #plot of auc
-#cols <- c("met_UC" = "red", "control" = "blue", "localized_UC"="purple")
-#cols <- c("metastatic" = "red", "MIBC" = "purple", "non-MIBC" = "blue", "control" = "green", "recurrent" = "orange")#, "non-recurrent" = "darkblue")
 cols <- c("PRAD" = "blue", "NEPC" = "orange")
-#cols <- c("Progression" = "red", "No Progression" = "blue") #tmp
-
 
 tmp %>% 
-#  group_by(iteration,Stage) %>%
   group_by(iteration,Type) %>%
   summarize(auc = mean(auc, na.rm = TRUE)) %>%
   ggplot(aes(x = Type, y = auc)) +
@@ -104,8 +71,6 @@ tmp %>%
   theme(legend.position = "none")
 ggsave(file=file.path(out.dir, "boxplot_auc_summary_100iter.pdf"),
   width=4, height=3)
-
-
 
 # Reorder
 #######################################
@@ -149,7 +114,6 @@ sortLvlsByVar.fnc <- function(oldFactor, sortingVariable, ascending = TRUE) {
 
 risk_summary <- tmp %>%
   group_by(sample_name, Type) %>%
-#  group_by(sample_name, Stage) %>%
   summarize(mean_risk_score = mean(class_prob),
             sd_risk_score = sd(class_prob, na.rm = TRUE),
             n = n(),
@@ -159,7 +123,6 @@ risk_summary <- tmp %>%
 
 write.table(format(data.frame(risk_summary), digits=2), quote=FALSE, row.names=FALSE, sep="\t",
   file=file.path(out.dir, "risk_score_summary.txt"))
-
 
 sample_probs_all <- tmp 
 
@@ -172,16 +135,12 @@ curves <- lapply(1:length(files), function(x) {
 })
 curves <- do.call(rbind, curves)
 
-
-
 ggplot() +
   geom_line(data = curves, aes(x=FPF, y = TPF, group=iteration ), alpha=0.1) +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +  
   geom_roc(data=sub, aes(d = truth, m = class_prob), labels = FALSE, color="blue") 
 ggsave(file =file.path(out.dir, "auc_curves.pdf"),
   width = 3, height = 3)
-
-
 
 sample_probs <- sample_probs_all
 sample_probs$sample_name <- as.factor(sample_probs$sample_name)
@@ -191,10 +150,8 @@ sample_probs$sample_name <- sortLvlsByVar.fnc(sample_probs$sample_name,
 
 p <- sample_probs %>%
   ggplot(aes(x = sample_name, y = class_prob, color = Type)) +
-#  ggplot(aes(x = sample_name, y = class_prob, color = Stage)) +
   geom_boxplot() +
-#  theme(axis.text.x = element_blank()) + 
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + #tmp
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) + 
   labs(color = "Sample Type") + 
   scale_color_manual(values = cols) + 
   ylab("Methylation score") + xlab("Samples") +
@@ -202,6 +159,3 @@ p <- sample_probs %>%
 ggsave(p,
   file =file.path(out.dir, "boxplot_risk_score_summary.pdf"),
   width = 12, height = 4)
-#  width = 6, height = 3)
-
-
