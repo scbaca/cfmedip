@@ -4,8 +4,6 @@
 
 # Based on script by Keegan Korthauer
 
-# [ ] eventually, may separate DMR calculation and model buildling/testing into separate scripts and paralelize iterations
-
 suppressMessages(library(MEDIPS))
 suppressMessages(library(ComplexHeatmap))
 suppressMessages(library(RColorBrewer))

@@ -3,10 +3,6 @@ library(dplyr)
 library(tidyr)
 library(readr)
 library(stringr)
-#library(Rsamtools)
-
-#!! currently, config and metasheet must have the same samples
-# in the same order for this to work properly
 
 cat("plotting insert sizes\n")
 args <- commandArgs( trailingOnly = TRUE )
@@ -20,8 +16,6 @@ get_sample_name = function(file_name) {
 }
 
 theme_set(theme_classic())
-#ins = read.table(insert_files[1],sep="\t",header=FALSE)
-#df = data.frame(rep(get_sample_name(insert_files[1]),nrow(ins)),insert_size=ins$V1)
 df = data.frame(sample=character(0), insert_size=numeric(0))
 for (i in 1:length(insert_files)) {
 	sn = get_sample_name(insert_files[i])

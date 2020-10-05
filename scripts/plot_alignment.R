@@ -2,7 +2,6 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(readr)
-#library(Rsamtools)
 
 args <- commandArgs( trailingOnly = TRUE )
 mqc_file=args[1]

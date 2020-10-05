@@ -2,7 +2,6 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(readr)
-#library(Rsamtools)
 
 args <- commandArgs( trailingOnly = TRUE )
 CpG_file=args[1]
