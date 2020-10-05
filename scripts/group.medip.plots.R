@@ -1,8 +1,6 @@
 # create various qc and analysis plots from medips objects
 # Based on script by Keegan Korthauer
 
-# call as group.medip.plots.R {cases} {controls} {valcases} {valcontrols} {output director} 
-
 suppressMessages(library(MEDIPS))
 suppressMessages(library(ComplexHeatmap))
 suppressMessages(library(RColorBrewer))
@@ -44,10 +42,6 @@ group.plots <- function(filelist = NULL, metasheet = NULL,
 
 	message("reading in medips files")
 	medip = lapply(met$file, readRDS)
-#        medip.cases <- lapply(met$file[met$Class=="case"], readRDS)
-#        medip.controls <- lapply(met$file[met$Class=="control"], readRDS)
-#	medip.valcases <- lapply(met$file[met$Class=="validate_case"],readRDS)
-#	medip.valcontrols <- lapply(met$file[met$Class=="validate_control"], readRDS)
 
         if(file.exists("analysis/couplingset/couplingset.rds")) {
                 CS = readRDS("analysis/couplingset/couplingset.rds")
@@ -55,11 +49,6 @@ group.plots <- function(filelist = NULL, metasheet = NULL,
 		message("generating coupling set")
         	CS = MEDIPS.couplingVector(pattern = "CG", refObj = medip[[1]]) 
         }
-
-	#create a correlation heatmap using unfiltered medips data. 
-#	cor.matrix = MEDIPS.correlation(MSets = c(medip.cases, medip.controls, medip.valcases, medip.valcontrols), plot = F, method = "pearson")
-#	saveRDS(cor.matrix,file.path(outdir,"cor.matrix.data.rds"))
-	# [ ] plot as heatmap
 
 	get_depths <- function(mdobjlist, samples){
 	  depth <- data.frame(sapply(mdobjlist, function(x){
@@ -76,15 +65,12 @@ group.plots <- function(filelist = NULL, metasheet = NULL,
 	ids = met$SampleName
 
         # plot sparsity                                                                                                               
-        message("creating sparsity plot")                                                                                             
-        sparsity = colSums2(df == 0) / nrow(df)                                                                                       
-        depth = colSums2(as.matrix(df))                                                                                               
-                                                                                                                                      
-        mtab <- data.frame(sample = met$SampleName, sparsity = sparsity,                                                                                       
-          depth = depth,                                                                                                              
-          group = met$Type)                                         
+        message("creating sparsity plot")
+	sparsity = colSums2(df == 0) / nrow(df)
+	depth = colSums2(as.matrix(df))
+	mtab <- data.frame(sample = met$SampleName, sparsity = sparsity, 
+	  depth = depth,group = met$Type)                                         
 	if(show.batch) mtab$batch = as.factor(met$Batch)                                              
-#          ids = met$SampleName)                                                                                                                  
 
 	theme_set(theme_classic())
 	if(show.batch) {
@@ -133,7 +119,6 @@ group.plots <- function(filelist = NULL, metasheet = NULL,
                 incl = incl & (win %over% annotations)
                 message(sum(incl), " windows remain after restricting to CpGs/enhancers")
         }                                                                                                                            
-                                                                                                                                      
 	# restrict to specified sites (ie NEPC-up in LuCaPs):
 	if (!is.null(restrict_up)){
 		sites_up=import(restrict_up, format="BED") 
@@ -188,7 +173,6 @@ group.plots <- function(filelist = NULL, metasheet = NULL,
           geom_point(size = 1) +
           geom_text(aes(label=id), hjust=1,vjust=1, alpha=0.5)
         ggsave(file.path(outdir, "PCA_2_3_cf_plasma.pdf"), width = 8, height = 8)                                                                  
-                                                                                                                                                   
         ggplot(tidydf, aes(x=PC3, y=PC4, colour = type)) +                                                                                         
           geom_point(size = 1) +                                                                                                                   
           geom_text(aes(label=id), hjust=1,vjust=1, alpha=0.5)                                                                                     
@@ -328,5 +312,3 @@ restrict_down = args[6]
 group.plots(filelist=medip.files, metasheet=metasheet,
   outdir = out.dir, blacklist = blacklist, 
   restrict_up = NULL, restrict_down = NULL, regulatory = FALSE)
-#  restrict = "LuCaP.q0.05.nowbc.bed", regulatory = TRUE)
-#  restrict = "LuCaP.q0.05.nowbc.bed", regulatory = FALSE)
