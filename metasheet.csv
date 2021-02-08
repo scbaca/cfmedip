@@ -1,0 +1,97 @@
+#comma-separated list of sample names and their class 
+#(either control, case, validate_case, validate_control, reference_case, or reference_control)
+#eg:
+#S036,control
+#S037,control
+#S038,control
+#B1,case
+#B2,case
+#B3,case
+
+SampleName,Type,Class,Batch,State,NE_score
+GENP6940_1,NEPC,case,6,De novo,3
+GENP7092_2,NEPC,case,6,De novo,5
+#GENP7559_P1,NEPC,case,6,De novo,5
+#GENP8187_P1,NEPC,case,6,De novo,4
+GENP8237_P1,NEPC,case,6,De novo,4
+GENP8340_P1,NEPC,case,6,De novo,2
+GENP2273-1,NEPC,case,6,Treatment emergent,3
+GENP5888-1,NEPC,case,6,Treatment emergent,2
+GENP6914_1,NEPC,case,6,Treatment emergent,4
+RGENP728_2,NEPC,case,6,Treatment emergent,3
+GENP7192_P1,NEPC,case,6,Treatment emergent,3
+RGENP988_P1,NEPC,case,6,Treatment emergent,2
+#RGENP1566_P1,NEPC,case,6,Treatment emergent,4
+GENP7605_P1,NEPC,case,6,Treatment emergent,3
+#GENP7951_P1,NEPC,case,6,Treatment emergent,4
+#GENP8111_P1,NEPC,case,6,Treatment emergent,6
+GENP8204_P1,NEPC,case,6,Treatment emergent,2
+#GENP8409_P1,NEPC,case,6,Treatment emergent,5
+RGENP2679_P1,NEPC,case,6,Treatment emergent,3
+GENP2384-1,PRAD,control,6,Metastatic PRAD,NA
+RGENP627_2,PRAD,control,6,Metastatic PRAD,NA
+RGENP315-1,PRAD,control,6,Metastatic PRAD,NA
+GENP3260-1,PRAD,control,6,Metastatic PRAD,NA
+RGENP1484_P2,PRAD,control,6,Metastatic PRAD,NA
+##GENP7272_P1,PRAD,control,6,Metastatic PRAD,NA
+RGENP1984_P2,PRAD,control,6,Metastatic PRAD,NA
+GENP7333_P1,PRAD,control,6,Metastatic PRAD,NA
+GENP7631_P1,PRAD,control,6,Metastatic PRAD,NA
+GENP7821_P1,PRAD,control,6,Metastatic PRAD,NA
+RGENP2044_P1,PRAD,control,6,Metastatic PRAD,NA
+RGENP2082_P1,PRAD,control,6,Metastatic PRAD,NA
+RGENP2251_P2,PRAD,control,6,Metastatic PRAD,NA
+GENP2411-1,NEPC,case,3,De novo,3
+GENP4908-1,NEPC,case,3,De novo,2
+#GENP7614_P1,NEPC,case,3,De novo,4
+#GENP5274-1,NEPC,case,3,De novo,4
+##09171-156-PL1,NEPC,case,3,Treatment emergent,NA
+GENP7940_P1,NEPC,case,3,Treatment emergent,2
+GENP7495_P1,NEPC,case,3,Treatment emergent,3
+#RGENP531_1,NEPC,case,3,Treatment emergent,5
+GENP4975-5,PRAD,control,3,Localized PRAD,NA
+GENP6972_1,PRAD,control,3,Localized PRAD,NA
+GENP2931-1,PRAD,control,3,Localized PRAD,NA
+GENP7096_1,PRAD,control,3,Localized PRAD,NA
+RGENP2421_P1,PRAD,control,3,Metastatic PRAD,NA
+RGENP2438_P1,PRAD,control,3,Metastatic PRAD,NA
+RGENP2318_P1,PRAD,control,3,Metastatic PRAD,NA
+GENP7986_P1,PRAD,control,3,Metastatic PRAD,NA
+#GENP8256,NEPC,case,7,Treatment emergent,3
+#GENP8484,NEPC,case,7,De novo,5
+#J17,PRAD,control,-2,Localized PRAD,NA
+#J18,PRAD,control,-2,Localized PRAD,NA
+#J19,PRAD,control,-2,Localized PRAD,NA
+#J20,PRAD,control,-2,Localized PRAD,NA
+#J21,PRAD,control,-2,Localized PRAD,NA
+#J22,PRAD,control,-2,Localized PRAD,NA
+LuCaP_49_2018,NEPC,reference_case,0,LuCaP NEPC,NA
+#LuCaP_208.2,NEPC,reference_case,0,LuCaP NEPC,NA
+LuCaP_173.1,NEPC,reference_case,0,LuCaP NEPC,NA
+LuCaP_93,NEPC,reference_case,0,LuCaP NEPC,NA
+LuCaP_145.1,NEPC,reference_case,0,LuCaP NEPC,NA
+LuCaP_145.2,NEPC,reference_case,0,LuCaP NEPC,NA
+LuCaP_147,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_23.1,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_35,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_73,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_81,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_86.2,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_96,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_105,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_136,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_58,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_70,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_77,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_78,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_92,PRAD,reference_control,0,LuCaP PRAD,NA
+LuCaP_35CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
+LuCaP_78CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
+LuCaP_136CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
+LuCaP_147CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
+LuCaP_23.1CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
+LuCaP_70CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
+LuCaP_73CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
+LuCaP_77CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
+LuCaP_86.2CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
+LuCaP_96CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
