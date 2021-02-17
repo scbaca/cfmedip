@@ -333,17 +333,19 @@ rule group_plots:
 	input:
 		files=get_medips, #list of all medips objects, same as used for rule DMRs
 		couplingset="analysis/couplingset/couplingset.rds",
-		up=config['restrict_up'] if (config["restrict_up"]!="") else "analysis/dmrs/" + config['run'] + "/reference/reference_DMRs.bed.case.up", 
-		down=config['restrict_down'] if (config["restrict_down"]!="") else "analysis/dmrs/" + config['run'] + "/reference/reference_DMRs.bed.case.down"
+		up=config['restrict_up'] if (config["restrict_up"]!="" and config["restrict_up"]!="none") else list() if (config["restrict_up"]=="none") else "analysis/dmrs/" + config['run'] + "/reference/reference_DMRs.bed.case.up",
+		down=config['restrict_down'] if (config["restrict_down"]!="" and config["restrict_down"]!="none") else list() if (config["restrict_down"]=="none") else "analysis/dmrs/" + config['run'] + "/reference/reference_DMRs.bed.case.down"
 	output:
 		"analysis/dmrs/" + config['run'] + "/hclust.pdf",
 		"analysis/dmrs/" + config['run'] + "/sparsity_depth.txt"
 	params:
 		meta=config['metasheet'],
 		blacklist=config['blacklist'],
-		run=config['run'],
+		run=config['run']
 	shell:
-		""" Rscript scripts/group.medip.plots.R "{input.files}" analysis/dmrs/{params.run} {params.meta} {params.blacklist} {input.up} {input.down} """
+		""" if [ '{input.up}' = '' ]; then up='none'; else up='{input.up}'; fi
+		if [ '{input.down}' = '' ]; then down='none'; else down='{input.down}'; fi
+		Rscript scripts/group.medip.plots.R "{input.files}" analysis/dmrs/{params.run} {params.meta} {params.blacklist} $up $down """
 
 # identify differentially methylated regions in a reference panel (eg, LuCaP MeDIP data)
 rule reference_DMRs:
@@ -368,8 +370,8 @@ rule DMRs:
 		files=get_medips,
 		couplingset="analysis/couplingset/couplingset.rds",
 		sparsitydepth="analysis/dmrs/" + config['run'] + "/sparsity_depth.txt",
-		up=config['restrict_up'] if (config["restrict_up"]!="") else "analysis/dmrs/" + config['run'] + "/reference/reference_DMRs.bed.case.up",
-		down=config['restrict_down'] if (config["restrict_down"]!="") else "analysis/dmrs/" + config['run'] + "/reference/reference_DMRs.bed.case.down"
+		up=config['restrict_up'] if (config["restrict_up"]!="" and config["restrict_up"]!="none") else list() if (config["restrict_up"]=="none") else "analysis/dmrs/" + config['run'] + "/reference/reference_DMRs.bed.case.up",
+		down=config['restrict_down'] if (config["restrict_down"]!="" and config["restrict_down"]!="none") else list() if (config["restrict_down"]=="none") else "analysis/dmrs/" + config['run'] + "/reference/reference_DMRs.bed.case.down"
 	output:
 		"analysis/dmrs/" + config['run'] + "/iter.{i}" + "/sample_prob_table.tsv"
 	params:
@@ -377,7 +379,9 @@ rule DMRs:
 		blacklist=config['blacklist'],
 		run=config['run'],
 	shell:
-		""" Rscript scripts/DMRs.R "{input.files}" analysis/dmrs/{params.run} {params.meta} {params.blacklist} {wildcards.i} {input.up} {input.down} {input.sparsitydepth} """
+		""" if [ '{input.up}' = '' ]; then up='none'; else up='{input.up}'; fi
+		if [ '{input.down}' = '' ]; then down='none'; else down='{input.down}'; fi
+		Rscript scripts/DMRs.R "{input.files}" analysis/dmrs/{params.run} {params.meta} {params.blacklist} {wildcards.i} $up $down {input.sparsitydepth} """
 
 # perform leave-one-out cross validation on plasma classification
 rule DMRs_leave_one_out:
@@ -385,8 +389,8 @@ rule DMRs_leave_one_out:
 		files=get_DMRs_leave_one_out_targets,
 		couplingset="analysis/couplingset/couplingset.rds",
 		sparsitydepth="analysis/dmrs/" + config['run'] + "/sparsity_depth.txt",
-		up=config['restrict_up'] if (config["restrict_up"]!="") else "analysis/dmrs/" + config['run'] + "/reference/reference_DMRs.bed.case.up",
-		down=config['restrict_down'] if (config["restrict_down"]!="") else "analysis/dmrs/" + config['run'] + "/reference/reference_DMRs.bed.case.down"
+		up=config['restrict_up'] if (config["restrict_up"]!="" and config["restrict_up"]!="none") else list() if (config["restrict_up"]=="none") else "analysis/dmrs/" + config['run'] + "/reference/reference_DMRs.bed.case.up",
+		down=config['restrict_down'] if (config["restrict_down"]!="" and config["restrict_down"]!="none") else list() if (config["restrict_down"]=="none") else "analysis/dmrs/" + config['run'] + "/reference/reference_DMRs.bed.case.down"
 	output:
 		"analysis/dmrs/" + config['run'] + "/leave_one_out/{sample}/sample_prob_table.tsv"
 	params:
@@ -394,7 +398,9 @@ rule DMRs_leave_one_out:
 		blacklist=config['blacklist'],
 		run=config['run'],
 	shell:
-		""" Rscript scripts/loo_DMRs.R "{input.files}" analysis/dmrs/{params.run} {params.meta} {params.blacklist} {wildcards.sample} {input.up} {input.down} {input.sparsitydepth} """
+		""" if [ '{input.up}' = '' ]; then up='none'; else up='{input.up}'; fi
+		if [ '{input.down}' = '' ]; then down='none'; else down='{input.down}'; fi
+		Rscript scripts/loo_DMRs.R "{input.files}" analysis/dmrs/{params.run} {params.meta} {params.blacklist} {wildcards.sample} $up $down {input.sparsitydepth} """
 
 # summarize and plot classification performance metrics
 rule performance:

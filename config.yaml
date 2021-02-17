@@ -5,7 +5,6 @@
 metasheet: 'metasheet.csv'
 
 #run name:
-#run: 'lucap_cf_nepc_vs_prad_train_test_highPSA'
 #run: 'no_lucap_cf_nepc_vs_prad_train_test'
 run: 'lucap_cf_nepc_vs_prad_train_test_final'
 
