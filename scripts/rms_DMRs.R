@@ -3,8 +3,6 @@ filelist=args[1]
 metasheet=args[2]
 rms_dir=args[3]
 
-ctdna.file="misc/ctDNA.tsv"
-
 suppressMessages(library(MEDIPS))
 suppressMessages(library(ComplexHeatmap))
 suppressMessages(library(RColorBrewer))
@@ -27,9 +25,11 @@ source("scripts/limmamedips.R")
 #TODO: review which libraries can be removed
 
 meth.file=file.path(rms_dir, "medip.rds")
-rms.file=file.path(rms_dir, "rms.rds") #file will have relative methylation score for all windows in final analysis
-restrict=file.path(rms_dir, "reference_up_filtered.bed")
-rms.thresh=0.2 #relative methylation score must be greater than this to be counted as methylated
+rms.file.up=file.path(rms_dir, "rms.up.rds") #file will have relative methylation score for windows that are UP in reference cases
+restrict.up=file.path(rms_dir, "reference_up_filtered.bed")
+rms.file.down=file.path(rms_dir, "rms.down.rds") #file will have relative methylation score for windows that are DOWN in reference cases
+restrict.down=file.path(rms_dir, "reference_down_filtered.bed")
+#rms.thresh=0.2 #relative methylation score must be greater than this to be counted as methylated
 
 chrs =  paste0("chr", c(1:22, "X", "Y", "M"))
         
@@ -51,8 +51,10 @@ met = merge(met, data.frame(cbind(SampleName, file)))
 met$file = as.character(met$file)                                                                                                      
 # load medips objects:                                                                                           
 message("reading in medips files") 
+
 if(!file.exists(meth.file)) {
 obj1 <- lapply(met$file, readRDS)                                                                                
+
 
 # the coupling set contains counts of CG for each window, can be used for normalization
 if(file.exists("analysis/couplingset/couplingset.rds")) {
@@ -68,145 +70,317 @@ meth = MEDIPS.meth(obj1, CSet = CS, chr = chrs, MeDIP = T)
 }
 
 meth.all = meth[,grepl("bam.rms", colnames(meth))]
-meth.coords = meth[,c("chr", "start", "stop")]
 
 rms.tot=colSums(meth.all)
-rms.tot.binary=colSums(meth.all>rms.thresh)
 
-# restrict to specified sites (ie NEPC-up in LuCaPs):
-sites_up=import(restrict, format="BED") 
-incl = rep(TRUE, nrow(meth))
-incl = incl & (makeGRangesFromDataFrame(meth) %over% sites_up) 	
+# restrict to sites that are UP in reference cases
+sites_up=import(restrict.up, format="BED") 
+incl.up = rep(TRUE, nrow(meth))
+incl.up = incl.up & (makeGRangesFromDataFrame(meth) %over% sites_up) 	
 
-meth.target = meth[incl,grepl("bam.rms", colnames(meth))]
-colnames(meth.target) = str_replace(colnames(meth.target),".dedup.bam.rms","") %>% str_replace("\\.","-")
+meth.target.up = meth[incl.up,grepl("bam.rms", colnames(meth))]
+colnames(meth.target.up) = str_replace(colnames(meth.target.up),".dedup.bam.rms","") %>% str_replace("\\.","-")
+saveRDS(meth.target.up, rms.file.up)
 
-meth.coords=meth.coords[incl,]
+# restrict to sites that are DOWN in reference cases
+sites_down=import(restrict.down, format="BED")
+incl.down = rep(TRUE, nrow(meth))
+incl.down = incl.down & (makeGRangesFromDataFrame(meth) %over% sites_down)
 
-saveRDS(meth.target, rms.file)
-score = colSums(meth.target)/rms.tot
-score.binary = colSums(meth.target>rms.thresh)/rms.tot.binary
+meth.target.down = meth[incl.down,grepl("bam.rms", colnames(meth))]
+colnames(meth.target.down) = str_replace(colnames(meth.target.down),".dedup.bam.rms","") %>% str_replace("\\.","-")
+saveRDS(meth.target.down, rms.file.down)
 
-df = data.frame(NE_meth_score = score, NE_meth_score_binary = score.binary, SampleName=names(score))
+score.up = colSums(meth.target.up)/rms.tot
+score.down = colSums(meth.target.down)/rms.tot
+
+df = data.frame(NE_meth_score = score.up, PRAD_meth_score = score.down, SampleName=names(score.up))
 df = merge(df, met, by="SampleName")
-df$Type=as.factor(df$Type)
+df$Type=factor(df$Type, levels=c("HEALTHY","PRAD", "NEPC"))
+
+df$portion=log((df$NE_meth_score/sum(incl.up))/(df$PRAD_meth_score/sum(incl.down)),2)
+
+#normalize portion score to the median for the healthy controls:
+med_portion = median(df$portion[df$Type=="HEALTHY"])
+df$portion = df$portion - med_portion
+
+
+#write results to text file
+write.table(df, file = file.path(rms_dir, "rms_scores.txt"), quote=F, sep="\t", row.names=F)
+
+#subset to remove samples with <0.03 ctDNA
+
+df = subset(df, ctDNA > 0.03 & Type != "HEALTHY")
+
 
 cols <- c("PRAD" = "blue", "NEPC" = "red")
 
-ggplot(df, aes(y=NE_meth_score, x=Type)) + geom_boxplot(outlier.shape = NA) + geom_jitter(aes(color=Type), height = 0) + theme_classic() + scale_color_manual(values = cols)
-ggsave(file.path(rms_dir, "rms_score.pdf"), height=3, width=3)
+ggplot(subset(df, Type != "HEALTHY"), aes(y=NE_meth_score, x=Type)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_jitter(aes(color=Type), height = 0) + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle=90, hjust=1)) +
+  scale_color_manual(values = cols)
+ggsave(file.path(rms_dir, "rms_score_type_NEPC_all.pdf"), height=3, width=3)
 
-if(show.batch) {
-  ggplot(df, aes(y=NE_meth_score, x=Type)) + geom_boxplot(outlier.shape = NA) + geom_jitter(aes(color=as.factor(Batch)), height = 0) + theme_classic()
-  ggsave(file.path(rms_dir, "rms_score_batch.pdf"), height=3, width=3)
-}
+ggplot(subset(df, Type != "HEALTHY"), aes(y=PRAD_meth_score, x=Type)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_jitter(aes(color=Type), height = 0) + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle=90, hjust=1)) +
+  scale_color_manual(values = cols)
+ggsave(file.path(rms_dir, "rms_score_type_PRAD_all.pdf"), height=3, width=3)
 
-df$State = factor(df$State, levels=c("Localized PRAD", "Metastatic PRAD", "Treatment emergent", "De novo"))
-ggplot(df, aes(y=NE_meth_score, x=State)) + geom_boxplot(outlier.shape = NA) + geom_jitter(aes(color=State), height = 0) + theme_classic()
-ggsave(file.path(rms_dir, "rms_score_state.pdf"), height=3, width=3)
+ggplot(subset(df, Type != "HEALTHY"), aes(y=portion, x=Type)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_jitter(aes(color=Type), height = 0) + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle=90, hjust=1)) +
+  scale_color_manual(values = cols)
+ggsave(file.path(rms_dir, "rms_score_type_ratio_all.pdf"), height=3, width=3)
 
-p=wilcox.test(x=df$NE_meth_score[df$Type=="NEPC"], y=df$NE_meth_score[df$Type=="PRAD"])$p.value
-message("Mann Whitney test for NEPC vs PRAD NE_meth_scores: ", p)
+# -----
 
-# plot auc for off-the shelf approach:
-curves <-  calculate_roc(D=as.numeric(df$Type=="NEPC"), M=df$NE_meth_score, ci = FALSE)
+message("combined cohorts")
+p=wilcox.test(x=df$NE_meth_score[df$Type=="NEPC"], y=df$NE_meth_score[df$Type=="PRAD"])$p.value    
+message("Mann Whitney test for NEPC vs PRAD NE_meth_scores: ", p) 
+
+p=wilcox.test(x=df$PRAD_meth_score[df$Type=="NEPC"], y=df$PRAD_meth_score[df$Type=="PRAD"])$p.value                
+message("Mann Whitney test for NEPC vs PRAD PRAD_meth_scores: ", p) 
+
+p=wilcox.test(x=df$portion[df$Type=="NEPC"], y=df$portion[df$Type=="PRAD"])$p.value                
+message("Mann Whitney test for NEPC vs PRAD portion scores: ", p) 
+
+#do the same for the test cohort and validation cohorts separeatly
+
+df.test = subset(df, Group=="Test")
+
+ggplot(subset(df.test, Type != "HEALTHY"), aes(y=NE_meth_score, x=Type)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_jitter(aes(color=Type), height = 0) + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle=90, hjust=1)) +
+  scale_color_manual(values = cols)
+ggsave(file.path(rms_dir, "rms_score_type_NEPC_test.pdf"), height=3, width=3)
+
+ggplot(subset(df.test, Type != "HEALTHY"), aes(y=PRAD_meth_score, x=Type)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_jitter(aes(color=Type), height = 0) + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle=90, hjust=1)) +
+  scale_color_manual(values = cols)
+ggsave(file.path(rms_dir, "rms_score_type_PRAD_test.pdf"), height=3, width=3)
+
+ggplot(subset(df.test, Type != "HEALTHY"), aes(y=portion, x=Type)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  geom_jitter(aes(color=Type), height = 0) + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle=90, hjust=1)) +
+  scale_color_manual(values = cols)
+ggsave(file.path(rms_dir, "rms_score_type_ratio_test.pdf"), height=3, width=3)
+
+# -----
+
+message("test cohort")
+p=wilcox.test(x=df.test$NE_meth_score[df.test$Type=="NEPC"], y=df.test$NE_meth_score[df.test$Type=="PRAD"])$p.value    
+message("Mann Whitney test for NEPC vs PRAD NE_meth_scores: ", p) 
+
+p=wilcox.test(x=df.test$PRAD_meth_score[df.test$Type=="NEPC"], y=df.test$PRAD_meth_score[df.test$Type=="PRAD"])$p.value                
+message("Mann Whitney test for NEPC vs PRAD PRAD_meth_scores: ", p) 
+
+p=wilcox.test(x=df.test$portion[df.test$Type=="NEPC"], y=df.test$portion[df.test$Type=="PRAD"])$p.value                
+message("Mann Whitney test for NEPC vs PRAD portion scores: ", p) 
+
+# do the same for the validation cohort
+
+df.val = subset(df, Group=="Validation")
+
+ggplot(subset(df.val, Type != "HEALTHY"), aes(y=NE_meth_score, x=Type)) +
+  geom_boxplot(outlier.shape = NA) + 
+  geom_jitter(aes(color=Type), height = 0) + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle=90, hjust=1)) +
+  scale_color_manual(values = cols)
+ggsave(file.path(rms_dir, "rms_score_type_NEPC_val.pdf"), height=3, width=3)
+
+ggplot(subset(df.val, Type != "HEALTHY"), aes(y=PRAD_meth_score, x=Type)) +
+  geom_boxplot(outlier.shape = NA) + 
+  geom_jitter(aes(color=Type), height = 0) + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle=90, hjust=1)) +
+  scale_color_manual(values = cols)
+ggsave(file.path(rms_dir, "rms_score_type_PRAD_val.pdf"), height=3, width=3)
+
+ggplot(subset(df.val, Type != "HEALTHY"), aes(y=portion, x=Type)) +
+  geom_boxplot(outlier.shape = NA) +                                                                           
+  geom_jitter(aes(color=Type), height = 0) + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle=90, hjust=1)) +
+  scale_color_manual(values = cols)
+ggsave(file.path(rms_dir, "rms_score_type_ratio_val.pdf"), height=3, width=3)
+
+# -----
+
+message("Validaiton cohort")                                                                                    
+p=wilcox.test(x=df.val$NE_meth_score[df.val$Type=="NEPC"], y=df.val$NE_meth_score[df.val$Type=="PRAD"])$p.value
+message("Mann Whitney test for NEPC vs PRAD NE_meth_scores: ", p)                                              
+
+p=wilcox.test(x=df.val$PRAD_meth_score[df.val$Type=="NEPC"], y=df.val$PRAD_meth_score[df.val$Type=="PRAD"])$p.value          
+ 
+message("Mann Whitney test for NEPC vs PRAD PRAD_meth_scores: ", p)                                            
+
+p=wilcox.test(x=df.val$portion[df.val$Type=="NEPC"], y=df.val$portion[df.val$Type=="PRAD"])$p.value        
+message("Mann Whitney test for NEPC vs PRAD portion scores: ", p)  
+
+# compare ctDNA content in test and validation cohorts
+#cols.group <- c("Test" = "purple", "Validation" = "darkorange")
+
+ggplot(df.test, aes(y=ctDNA, x=Type, color=Type)) + 
+  geom_boxplot(outlier.shape = NA, color="black") +
+  geom_jitter(height = 0) + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle=90, hjust=1)) +
+  scale_color_manual(values = cols) +
+  ylim(0,1)
+ggsave(file.path(rms_dir, "ctDNA_test.pdf"), height=3, width=3)
+
+p=wilcox.test(x=df.test$ctDNA[df.test$Type=="NEPC"], y=df.test$ctDNA[df$Type=="PRAD"])$p.value
+message("Mann Whitney test for ctDNA of test and validation cohorts: ", p)
+
+ggplot(df.val, aes(y=ctDNA, x=Type, color=Type)) +                      
+  geom_boxplot(outlier.shape = NA, color="black") +                                                        
+  geom_jitter(height = 0) +                                                                                
+  theme_classic() +                                                                                        
+  theme(axis.text.x = element_text(angle=90, hjust=1)) +
+  scale_color_manual(values = cols) +                                                                      
+  ylim(0,1)
+ggsave(file.path(rms_dir, "ctDNA_val.pdf"), height=3, width=3)
+
+p=wilcox.test(x=df.val$ctDNA[df.val$Type=="NEPC"], y=df.val$ctDNA[df.val$Type=="PRAD"])$p.value
+message("Mann Whitney test for ctDNA of test and validation cohorts: ", p)       
+
+
+#scatterplot of PRAD vs NEPC scores:
+ggplot(subset(df, Type != "HEALTHY"), aes(y=NE_meth_score, x=PRAD_meth_score, col=Type, size=ctDNA)) +
+  geom_point() +
+  scale_color_manual(values = cols) +
+  theme_classic()
+ggsave(file.path(rms_dir, "PRAD_vs_NEPC_score.pdf"), height=4, width=5)
+
+# plot auc for NEPC score for calssifying presence of ANY NE features:
+aucsamples = subset(df, Type=="PRAD" | Type=="NEPC")
+
+curves <-  calculate_roc(D=as.numeric(aucsamples$Type=="NEPC"), M=aucsamples$NE_meth_score, ci = FALSE)
 auc_plot <- ggplot() +
   geom_line(data = curves, aes(x=FPF, y = TPF)) +
   theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-  geom_roc(data=df, aes(d = as.numeric(df$Type=="NEPC"), m = NE_meth_score), labels = FALSE, color="darkgray")
+  geom_roc(data=aucsamples, aes(d = as.numeric(aucsamples$Type=="NEPC"), m = NE_meth_score), labels = FALSE, color="darkgray")
 
-ggsave(auc_plot, file = file.path(rms_dir, "auc_curve.pdf"),
+ggsave(auc_plot, file = file.path(rms_dir, "auc_curve_NEPC.pdf"),
   width = 3, height = 3)
 
-message("classification AUC: ", calc_auc(auc_plot)$AUC)
+message("classification AUC for NEPC score: ", calc_auc(auc_plot)$AUC)
 
-#write table with results
-write.table(df, file = file.path(rms_dir, "rms_scores.txt"), quote=F, sep="\t", row.names=F)
+curves <-  calculate_roc(D=as.numeric(aucsamples$Type=="NEPC"), M=aucsamples$portion, ci = FALSE)
+auc_plot <- ggplot() +
+  geom_line(data = curves, aes(x=FPF, y = TPF)) +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  geom_roc(data=aucsamples, aes(d = as.numeric(aucsamples$Type=="NEPC"), m = portion), labels = FALSE, color="darkgray")
 
-#extra: annotate with ctDNA content estimates (high vs low)
-ctdna=read.table(ctdna.file, sep="\t", head=T)
-m=merge(df,ctdna, by="SampleName")
+ggsave(auc_plot, file = file.path(rms_dir, "auc_curve_portion.pdf"),
+  width = 3, height = 3)
+
+message("classification AUC for NEPC/PRAD score ratio: ", calc_auc(auc_plot)$AUC)
+
+#plot portion scores for test and validation cohorts separately
+curves <-  calculate_roc(D=as.numeric(df.test$Type=="NEPC"), M=df.test$portion, ci = FALSE)
+auc_plot <- ggplot() +
+  geom_line(data = curves, aes(x=FPF, y = TPF)) +
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+  geom_roc(data=df.test, aes(d = as.numeric(df.test$Type=="NEPC"), m = portion), labels = FALSE, color="darkgray")
+
+ggsave(auc_plot, file = file.path(rms_dir, "auc_curve_portion_test.pdf"),
+  width = 3, height = 3)
+
+message("classification AUC for NEPC/PRAD score ratio for test cohort: ", calc_auc(auc_plot)$AUC)
+
+curves <-  calculate_roc(D=as.numeric(df.val$Type=="NEPC"), M=df.val$portion, ci = FALSE)
+auc_plot <- ggplot() +                                                                                     
+  geom_line(data = curves, aes(x=FPF, y = TPF)) +                                                          
+  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +             
+  geom_roc(data=df.val, aes(d = as.numeric(df.val$Type=="NEPC"), m = portion), labels = FALSE, color="darkgray")    
+                                                                                                           
+ggsave(auc_plot, file = file.path(rms_dir, "auc_curve_portion_val.pdf"),                                  
+  width = 3, height = 3)
+
+message("classification AUC for NEPC/PRAD score ratio for validation cohort: ", calc_auc(auc_plot)$AUC)
+
+
+#-----
+
 
 #print ctDNA stats
-ct = m$ctDNA_estimate
+ct = df$ctDNA
 message("cohort ctDNA stats: min=", min(ct), " max=", max(ct), " median=", median(ct))
-ct = m$ctDNA_estimate[m$Type=="PRAD"]
+ct = df$ctDNA[df$Type=="PRAD"]
 message("PRAD ctDNA stats: min=", min(ct), " max=", max(ct), " median=", median(ct))
-ct = m$ctDNA_estimate[m$Type=="NEPC"]
+ct = df$ctDNA[df$Type=="NEPC"]
 message("NEPC ctDNA stats: min=", min(ct), " max=", max(ct), " median=", median(ct))
 
+#plot portion score vs ctDNA estimate for NEPC and PRAD:
+ggplot(df, aes(y=portion, x=ctDNA, col=Type)) +  
+  geom_point() + theme_classic() + scale_color_manual(values = cols) +  
+  geom_smooth(method="lm", col="blue", linetype="longdash", data=subset(df, Type=="PRAD")) +      
+  geom_smooth(method="lm", col="red", linetype="longdash", data=subset(df, Type=="NEPC")) +             
+ggsave(file.path(rms_dir, "rms_score_portion_ctDNA_scatter.pdf"), height=3, width=5) 
 
-m$ctDNA = factor(ifelse(m$ctDNA_estimate >= 0.1, ">= 10% ctDNA", " < 10% ctDNA"), levels=c(">= 10% ctDNA", " < 10% ctDNA", "unknown"))
-m$ctDNA[is.na(m$ctDNA)] = "unknown"
+cor=cor.test(x=df$portion[df$Type=="PRAD"], y=df$ctDNA[df$Type=="PRAD"])
+message("correlation for PRAD sample portion score and ctDNA = ", cor$estimate, "(p = ", cor$p.value, ")")
 
-ggplot(m, aes(y=NE_meth_score, x=Type)) + geom_boxplot(outlier.shape = NA) + geom_jitter(aes(color=ctDNA), height = 0) + theme_classic()
-ggsave(file.path(rms_dir, "rms_score_ctDNA.pdf"), height=3, width=4)
+cor=cor.test(x=df$portion[df$Type=="NEPC"], y=df$ctDNA[df$Type=="NEPC"])
+message("correlation for NEPC sample portion score and ctDNA = ", cor$estimate, "(p = ", cor$p.value, ")")
 
-#plot NE score vs ctDNA estimate:
-ggplot(m) + geom_point(aes(y=NE_meth_score, x=ctDNA_estimate, col=Type)) + theme_classic() + scale_color_manual(values = cols)
-ggsave(file.path(rms_dir, "rms_score_ctDNA_scatter.pdf"), height=3, width=4)
+# OS plots:
+df$OS = as.numeric(df$OS)
 
-#plot NE score vs ctDNA estimate for PRAD only:
-ggplot(subset(m, Type=="PRAD"), aes(y=NE_meth_score, x=ctDNA_estimate, col=Type)) + geom_smooth(method="lm", se=F, col="darkgray") + geom_point() + theme_classic() + scale_color_manual(values = cols)
-ggsave(file.path(rms_dir, "rms_score_ctDNA_scatter_PRAD.pdf"), height=3, width=4)
 
-cor=cor.test(x=m$NE_meth_score[m$Type=="PRAD"], y=m$ctDNA_estimate[m$Type=="PRAD"])
-message("correlation for PRAD sample NE score and ctDNA = ", cor$estimate, "(p = ", cor$p.value, ")")
+#plot portion score vs ctDNA estimate for NEPC and PRAD:                                                         
+ggplot(df, aes(y=portion, x=OS, col=Type)) +                                                       
+  geom_point() + theme_classic() + scale_color_manual(values = cols) + 
+  geom_smooth(method="lm", col="gray", linetype="longdash") 
+ggsave(file.path(rms_dir, "rms_score_portion_OS.pdf"), height=3, width=5)                                         
+                                     
+cor=cor.test(x=df$portion[!is.na(df$OS)], y=df$OS[!is.na(df$OS)])      
+message("correlation for portion score and OS = ", cor$estimate, "(p = ", cor$p.value, ")")                   
 
-#plot NE score vs ctDNA estimate for NEPC only:
-ggplot(subset(m, Type=="NEPC"), aes(y=NE_meth_score, x=ctDNA_estimate, col=Type)) + geom_smooth(method="lm", se=F, col="darkgray") + geom_point(
-) + theme_classic() + scale_color_manual(values = cols)
-ggsave(file.path(rms_dir, "rms_score_ctDNA_scatter_NEPC.pdf"), height=3, width=4)
+#same for ctDNA vs OS:
+ggplot(df, aes(y=ctDNA, x=OS, col=Type)) +               
+  geom_point() + theme_classic() + scale_color_manual(values = cols) + 
+  geom_smooth(method="lm", col="gray", linetype="longdash")
+ggsave(file.path(rms_dir, "ctDNA_OS.pdf"), height=3, width=5)                                         
+                                                         
+cor=cor.test(x=df$ctDNA[!is.na(df$OS)], y=df$OS[!is.na(df$OS)])                                             
+message("correlation for ctDNA and OS = ", cor$estimate, "(p = ", cor$p.value, ")") 
 
-cor=cor.test(x=m$NE_meth_score[m$Type=="NEPC"], y=m$ctDNA_estimate[m$Type=="NEPC"])
-message("correlation for NEPC sample NE score and ctDNA = ", cor$estimate, "(p = ", cor$p.value, ")")
- 
 
-#calculate AUC for samples with > 5% ctDNA only
-ms = subset(m, ctDNA_estimate > 0.05)
+#look at NEPC score as a function of ctDNA quantiles:
+df$ctDNA_quantile = rep(NA, nrow(df))
+cuts = quantile(df$ctDNA)
 
-curves <-  calculate_roc(D=as.numeric(ms$Type=="NEPC"), M=ms$NE_meth_score, ci = FALSE)
+i=1
+for(c in cuts) {
+	df$ctDNA_quantile[df$ctDNA > c] = names(cuts[i])
+	i=i+1
+}
+df$ctDNA_quantile = factor(df$ctDNA_quantile, levels = names(cuts))
 
-auc_plot <- ggplot() +
-  geom_line(data = curves, aes(x=FPF, y = TPF)) +
-  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-  geom_roc(data=ms, aes(d = as.numeric(ms$Type=="NEPC"), m = NE_meth_score), labels = FALSE, color="darkgray")
 
-ggsave(auc_plot, file = file.path(rms_dir, "auc_curve_ctDNA_0.05.pdf"),
-  width = 3, height = 3)
+ggplot(subset(df, Type != "HEALTHY" & !is.na(ctDNA_quantile)), aes(y=portion, col=ctDNA_quantile, x=Type)) +
+  geom_boxplot(outlier.shape = NA) +                                                                           
+  geom_jitter(color="gray", height = 0) + 
+  theme_classic() + 
+  theme(axis.text.x = element_text(angle=90, hjust=1)) +
 
-ggplot(ms, aes(y=NE_meth_score, x=Type)) + geom_boxplot(outlier.shape = NA) + geom_jitter(aes(color=Type), height = 0) + theme_classic() + scale_color_manual(values = cols)
-ggsave(file.path(rms_dir, "rms_score_ctDNA_0.05.pdf"), height=3, width=3)
+ggsave(file.path(rms_dir, "rms_ctDNA.pdf"), height=3, width=6)
 
-message("classification AUC for samples with >= 5% ctDNA: ", calc_auc(auc_plot)$AUC)
-
-message("median NE methylation score for PRAD when limiting to >=5% ctDNA: ", median(ms$NE_meth_score[ms$Type=="PRAD"]), ". sd = ", sd(ms$NE_meth_score[ms$Type=="PRAD"]), ", n = ", sum(ms$Type=="PRAD"))
-
-message("median NE methylation score for NEPC when limiting to >=5% ctDNA: ", median(ms$NE_meth_score[ms$Type=="NEPC"]), ". sd = ", sd(ms$NE_meth_score[ms$Type=="NEPC"]), ", n = ", sum(ms$Type=="NEPC"))
-
-message("wilcoxon p val for PRAD vs NEPC = ", wilcox.test(x=ms$NE_meth_score[ms$Type=="NEPC"], y=ms$NE_meth_score[ms$Type=="PRAD"])$p.value)
-
-#do the same for samples with > 10% ctDNA only
-ms = subset(m, ctDNA_estimate > 0.10)
-
-curves <- calculate_roc(D=as.numeric(ms$Type=="NEPC"), M=ms$NE_meth_score, ci = FALSE)
-
-auc_plot <- ggplot() +
-  geom_line(data = curves, aes(x=FPF, y = TPF)) +
-  theme_bw() + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-  geom_roc(data=ms, aes(d = as.numeric(ms$Type=="NEPC"), m = NE_meth_score), labels = FALSE, color="darkgray")
-
-ggsave(auc_plot, file = file.path(rms_dir, "auc_curve_ctDNA_0.1.pdf"),
-  width = 3, height = 3)
-
-ggplot(ms, aes(y=NE_meth_score, x=Type)) + geom_boxplot(outlier.shape = NA) + geom_jitter(aes(color=Type), height = 0) + theme_classic() + scale_color_manual(values = cols)
-ggsave(file.path(rms_dir, "rms_score_ctDNA_0.1.pdf"), height=3, width=3)
-
-message("classification AUC for samples with >= 10% ctDNA: ", calc_auc(auc_plot)$AUC)
-
-message("median NE methylation score for PRAD when limiting to >=10% ctDNA: ", median(ms$NE_meth_score[ms$Type=="PRAD"]), ". sd = ", sd(ms$NE_meth_score[ms$Type=="PRAD"]), ", n = ", sum(ms$Type=="PRAD"))
-
-message("median NE methylation score for NEPC when limiting to >=10% ctDNA: ", median(ms$NE_meth_score[ms$Type=="NEPC"]), ". sd = ", sd(ms$NE_meth_score[ms$Type=="NEPC"]), ", n = ", sum(ms$Type=="NEPC"))
-
-message("wilcoxon p val for PRAD vs NEPC = ", wilcox.test(x=ms$NE_meth_score[ms$Type=="NEPC"], y=ms$NE_meth_score[ms$Type=="PRAD"])$p.value)
 

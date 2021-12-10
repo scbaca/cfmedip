@@ -30,4 +30,4 @@ ggplot(df, aes(x =sample,y = insert_size)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   ylab("Insert size") +
   xlab("Sample") + ylim(0,1000)
-ggsave(out_file,width = 12, height = 5)
+ggsave(out_file,width = 15, height = 5)

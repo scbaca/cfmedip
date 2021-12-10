@@ -264,7 +264,7 @@ compute.diff <- function(filelist=files,
 	  top_annotation = ha_column, col = ecolors,
 	  show_row_names = FALSE, show_column_names = colnames,
 	  column_names_gp = gpar(fontsize = 9),
-	  column_title = paste0("Top ", top)), 
+	  column_title = paste0("Top ", top)) 
 
 	pdf(heatmap.file, width=8)
 	draw(ht)	

@@ -15,11 +15,6 @@ def input_is_fq(sample):
 	else:
 		return False
 
-# Get classes labels for each sample
-def get_Class(cls):
-    comp = metadata["Class"]
-    return metadata[comp == cls].index
-
 # get fq files with read 1 for paired-end reads
 def get_fq1(wildcards):
 	return config["samples"][wildcards.sample][0]
@@ -34,8 +29,7 @@ def get_fq2(wildcards):
 
 # --- functions to create lists of snakemake target files ---
 
-# create targets for "all rule"
-### TODO: remove any of these that are no longer necessary to run the whole workflow. Make function names more consistent
+# create targets for "all" rule
 def get_targets(wildcards):
 	ls = []
 	
@@ -53,9 +47,6 @@ def get_targets(wildcards):
 	ls.append("analysis/dmrs/" + config['run'] + "/auc_curves.pdf")
 	ls.append("analysis/dmrs/" + config['run'] + "/leave_one_out/auc_curves.pdf")
 
-#	#compare DMRs targets:
-#	ls.append("analysis/dmrs/" + config['run'] + "/coef.summary.bed")
-	
 	#rms-based score using reference DMRs:
 	ls.append("analysis/dmrs/" + config['run'] + "/rms/auc_curve.pdf")
 
@@ -155,8 +146,8 @@ rule fastq_links:
 		fq1_ln = "attic/{sample}_1.fq.gz",
 		fq2_ln = "attic/{sample}_2.fq.gz"
 	shell:
-		"ln -s {input.fq1} {output.fq1_ln} && "
-		"ln -s {input.fq2} {output.fq2_ln}"
+		"ln -s $PWD/{input.fq1} {output.fq1_ln} && "
+		"ln -s $PWD/{input.fq2} {output.fq2_ln}"
 
 # run fastqc
 rule fastqc:
@@ -268,17 +259,16 @@ rule multiqc:
 		get_multiqc_targets
 	output:
 		"analysis/multiqc/multiqc.html",
-		"analysis/multiqc/multiqc_data/multiqc_general_stats.txt"
+		"analysis/multiqc/multiqc_data/multiqc_bowtie2.txt",
+		"analysis/multiqc/multiqc_data/multiqc_fastqc.txt",
 	shell:
 		"multiqc analysis --ignore *val* -f -o analysis/multiqc -n multiqc.html"
 
 # generate qc plots (alignment stats, insert sizes, read number for main chrs, CpG enrichment, duplicate reads)
-# TODO: consider whether to move these to group_plots and plot them by group
-# should make these more consistent in terms of sample ordering and whether or not
-# they rely on sample names in metasheet.csv
 rule plot_qc:
 	input:
-		mqc = "analysis/multiqc/multiqc_data/multiqc_general_stats.txt",
+		mqc_bowtie = "analysis/multiqc/multiqc_data/multiqc_bowtie2.txt",
+		mqc_fastqc = "analysis/multiqc/multiqc_data/multiqc_fastqc.txt",
 		inserts = get_insert_size_file_list,
 		reads = get_unique_main_chr_read_file_list,
 		enrichment = get_enrichment_file_list
@@ -294,12 +284,12 @@ rule plot_qc:
 		meta=config['metasheet']	
 	shell:
 		""" mkdir -p {params.dir} &&
-		Rscript scripts/plot_alignment.R "{input.mqc}" "{output.alignment}" "{params.samples}" && 
+		Rscript scripts/plot_alignment.R "{input.mqc_bowtie}" "{output.alignment}" "{params.samples}" && 
 		Rscript scripts/plot_inserts_size.R "{input.inserts}" "{output.inserts}" "{params.samples}" &&
 		cat {input.reads} > {params.dir}/main_chr_unique_reads.txt &&
 		Rscript scripts/plot_main_chr_unique_reads.R "{params.dir}/main_chr_unique_reads.txt" "{output.reads}" "{params.samples}" && 
 		rm {params.dir}/main_chr_unique_reads.txt &&
-		Rscript scripts/plot_unique_dups.R "{input.mqc}" "{output.dups}" "{params.samples}" &&
+		Rscript scripts/plot_unique_dups.R "{input.mqc_fastqc}" "{output.dups}" "{params.samples}" &&
 		cat {input.enrichment} | grep GoGe > {params.dir}/CpG_enrichment.txt &&
 		Rscript scripts/plot_CpG_enrichment.R "{params.dir}/CpG_enrichment.txt" "{output.enrichment}" "{params.samples}" """
 

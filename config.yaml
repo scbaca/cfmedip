@@ -1,12 +1,8 @@
 #file with sample annotations:
-# !! currently, samples in config.yaml and metasheet.csv need to list the same samples
-#  in the same order for some of the modules to work properly
-
 metasheet: 'metasheet.csv'
 
 #run name:
-#run: 'no_lucap_cf_nepc_vs_prad_train_test'
-run: 'lucap_cf_nepc_vs_prad_train_test_final'
+run: 'nepc_vs_prad_validation_plus_new'
 
 #number of iterations used for cross validation:
 iterations: 100
@@ -22,405 +18,610 @@ blacklist: 'ref_files/hg19-blacklist.v2.bed'
 rms_exclude: 'ref_files/hg19-blacklist.v2_wbc.peaks.merged.bed'
 
 #up-DMRs in training set must overlap with these - if set to '', will calculate from reference_case and reference_control samples in metasheet. If set to "none", will not restrict:
-#restrict_up: 'cf_vs_lucap/LuCaP.q0.05.up.bed'
-#restrict_up: ''
 restrict_up: 'none'
 
 #down-DMRs in training set must overlap with these - if set to '', will calculate from reference_case and reference_control samples in metasheet. If set to "none", will not 
-#restrict_down: 'cf_vs_lucap/LuCaP.q0.05.down.bed'
-#restrict_down: 'none'
-#restrict_down: ''
 restrict_down: 'none'
 
 #samples can be paired end fastq files or medips files. can theoretically mix these, but hasn't been tested
 samples:
- GENP6940_1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J04/J04_CKDL200158809-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J04/J04_CKDL200158809-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP7092_2:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J06/J06_CKDL200158811-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J06/J06_CKDL200158811-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP7559_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J09/J09_CKDL200158814-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J09/J09_CKDL200158814-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP8187_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J14/J14_CKDL200158819-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J14/J14_CKDL200158819-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP8237_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J16/J16_CKDL200158821-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J16/J16_CKDL200158821-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP8340_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J17/J17_CKDL200158822-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J17/J17_CKDL200158822-1a_HC2Y7BBXX_L4_2.fq.gz
- GENP2411-1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s17_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s17_2.fq.gz
- GENP4908-1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s18_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s18_2.fq.gz
- GENP7614_P1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s19_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s19_2.fq.gz
- GENP5274-1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s20_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s20_2.fq.gz
- GENP2273-1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J01/J01_CKDL200158806-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J01/J01_CKDL200158806-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP5888-1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J02/J02_CKDL200158807-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J02/J02_CKDL200158807-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP6914_1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J03/J03_CKDL200158808-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J03/J03_CKDL200158808-1a_HC2Y7BBXX_L3_2.fq.gz
- RGENP728_2:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J05/J05_CKDL200158810-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J05/J05_CKDL200158810-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP7192_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J07/J07_CKDL200158812-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J07/J07_CKDL200158812-1a_HC2Y7BBXX_L3_2.fq.gz
- RGENP988_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J08/J08_CKDL200158813-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J08/J08_CKDL200158813-1a_HC2Y7BBXX_L3_2.fq.gz
- RGENP1566_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J10/J10_CKDL200158815-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J10/J10_CKDL200158815-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP7605_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J11/J11_CKDL200158816-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J11/J11_CKDL200158816-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP7951_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J12/J12_CKDL200158817-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J12/J12_CKDL200158817-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP8111_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J13/J13_CKDL200158818-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J13/J13_CKDL200158818-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP8204_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J15/J15_CKDL200158820-1a_HC2Y7BBXX_L3_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J15/J15_CKDL200158820-1a_HC2Y7BBXX_L3_2.fq.gz
- GENP8409_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J18/J18_CKDL200158823-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J18/J18_CKDL200158823-1a_HC2Y7BBXX_L4_2.fq.gz
- RGENP2679_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J19/J19_CKDL200158824-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J19/J19_CKDL200158824-1a_HC2Y7BBXX_L4_2.fq.gz
-# 09171-156-PL1:
-#     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s21_1.fq.gz
-#     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s21_2.fq.gz
- GENP7940_P1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s22_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s22_2.fq.gz
- GENP7495_P1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s23_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s23_2.fq.gz
- RGENP531_1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s24_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s24_2.fq.gz
- GENP4975-5:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s29_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s29_2.fq.gz
- GENP6972_1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s30_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s30_2.fq.gz
- GENP2931-1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s31_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s31_2.fq.gz
- GENP7096_1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s32_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s32_2.fq.gz
- GENP2384-1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J20/J20_CKDL200158825-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J20/J20_CKDL200158825-1a_HC2Y7BBXX_L4_2.fq.gz
- RGENP627_2:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J21/J21_CKDL200158826-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J21/J21_CKDL200158826-1a_HC2Y7BBXX_L4_2.fq.gz
- RGENP315-1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J22/J22_CKDL200158827-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J22/J22_CKDL200158827-1a_HC2Y7BBXX_L4_2.fq.gz
- GENP3260-1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J23/J23_CKDL200158828-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J23/J23_CKDL200158828-1a_HC2Y7BBXX_L4_2.fq.gz
- RGENP1484_P2:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J24/J24_CKDL200158829-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J24/J24_CKDL200158829-1a_HC2Y7BBXX_L4_2.fq.gz
-# GENP7272_P1:
-#     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J25/J25_CKDL200158830-1a_HC2Y7BBXX_L4_1.fq.gz
-#     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J25/J25_CKDL200158830-1a_HC2Y7BBXX_L4_2.fq.gz
- RGENP1984_P2:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J26/J26_CKDL200158831-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J26/J26_CKDL200158831-1a_HC2Y7BBXX_L4_2.fq.gz
- GENP7333_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J27/J27_CKDL200158832-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J27/J27_CKDL200158832-1a_HC2Y7BBXX_L4_2.fq.gz
- GENP7631_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J28/J28_CKDL200158833-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J28/J28_CKDL200158833-1a_HC2Y7BBXX_L4_2.fq.gz
- GENP7821_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J29/J29_CKDL200158834-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J29/J29_CKDL200158834-1a_HC2Y7BBXX_L4_2.fq.gz
- RGENP2044_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J30/J30_CKDL200158835-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J30/J30_CKDL200158835-1a_HC2Y7BBXX_L4_2.fq.gz
- RGENP2082_P1:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J31/J31_CKDL200158836-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J31/J31_CKDL200158836-1a_HC2Y7BBXX_L4_2.fq.gz
- RGENP2251_P2:
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J32/J32_CKDL200158837-1a_HC2Y7BBXX_L4_1.fq.gz
-     - /mnt/cfce-stor1/projects/freedman-medip/raw_data/7.30.20.NEPC/usftp21.novogene.com/raw_data/J32/J32_CKDL200158837-1a_HC2Y7BBXX_L4_2.fq.gz
- RGENP2421_P1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s25_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s25_2.fq.gz
- RGENP2438_P1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s26_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s26_2.fq.gz
- RGENP2318_P1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s27_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s27_2.fq.gz
- GENP7986_P1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s28_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s28_2.fq.gz
- GENP8256:
-    - /n/scratch3/users/s/scb20/medips/NEPC/cfmedip/data/J15_CKDL200161513-1a_HCHJGBBXX_L8_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/NEPC/cfmedip/data/J15_CKDL200161513-1a_HCHJGBBXX_L8_2.fq.gz
- GENP8484:
-    - /n/scratch3/users/s/scb20/medips/NEPC/cfmedip/data/J16_CKDL200161514-1a_HCHJGBBXX_L8_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/NEPC/cfmedip/data/J16_CKDL200161514-1a_HCHJGBBXX_L8_2.fq.gz
-# LuCaP_173.2:
-#     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s15_1.fq.gz
-#     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s15_2.fq.gz
-# LuCaP_49_2015:
-#     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/2019_0516_CfD_ATACseq/128.120.88.242/C202SC19040590/raw_data/S57_1.fq.gz
-#     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/2019_0516_CfD_ATACseq/128.120.88.242/C202SC19040590/raw_data/S57_2.fq.gz
- LuCaP_49_2018:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/2019_0516_CfD_ATACseq/128.120.88.242/C202SC19040590/raw_data/S58_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/2019_0516_CfD_ATACseq/128.120.88.242/C202SC19040590/raw_data/S58_2.fq.gz
- LuCaP_208.2:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s16_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s16_2.fq.gz
- LuCaP_173.1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J10/J10_HY2FCBBXX_L005_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J10/J10_HY2FCBBXX_L005_2.fq.gz
- LuCaP_93:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J7/J7_HY2FCBBXX_L005_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J7/J7_HY2FCBBXX_L005_2.fq.gz
- LuCaP_145.1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J8/J8_HY2FCBBXX_L005_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J8/J8_HY2FCBBXX_L005_2.fq.gz
- LuCaP_145.2:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J9/J9_HY2FCBBXX_L005_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J9/J9_HY2FCBBXX_L005_2.fq.gz
- LuCaP_147:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190905/128.120.88.251/C202SC19080449/raw_data/a4_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190905/128.120.88.251/C202SC19080449/raw_data/a4_2.fq.gz
- LuCaP_23.1:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s1_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s1_2.fq.gz
- LuCaP_35:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s3_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s3_2.fq.gz
- LuCaP_73:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s5_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s5_2.fq.gz
- LuCaP_81:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s8_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s8_2.fq.gz
- LuCaP_86.2:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s9_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s9_2.fq.gz
- LuCaP_96:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s11_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s11_2.fq.gz
- LuCaP_105:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s13_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s13_2.fq.gz
- LuCaP_136:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s14_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s14_2.fq.gz
- LuCaP_58:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J2/J2_HY2FCBBXX_L005_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J2/J2_HY2FCBBXX_L005_2.fq.gz
- LuCaP_70:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J3/J3_HY2FCBBXX_L005_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J3/J3_HY2FCBBXX_L005_2.fq.gz
- LuCaP_77:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J4/J4_HY2FCBBXX_L005_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J4/J4_HY2FCBBXX_L005_2.fq.gz
- LuCaP_78:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J5/J5_HY2FCBBXX_L005_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J5/J5_HY2FCBBXX_L005_2.fq.gz
- LuCaP_92:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J6/J6_HY2FCBBXX_L005_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/APR_2019/128.120.88.242/P202SC19030395-01/raw_data/J6/J6_HY2FCBBXX_L005_2.fq.gz
- LuCaP_35CR:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190905/128.120.88.251/C202SC19080449/raw_data/a1_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190905/128.120.88.251/C202SC19080449/raw_data/a1_2.fq.gz
- LuCaP_78CR:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190905/128.120.88.251/C202SC19080449/raw_data/a2_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190905/128.120.88.251/C202SC19080449/raw_data/a2_2.fq.gz
- LuCaP_136CR:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190905/128.120.88.251/C202SC19080449/raw_data/a3_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190905/128.120.88.251/C202SC19080449/raw_data/a3_2.fq.gz
- LuCaP_147CR:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190905/128.120.88.251/C202SC19080449/raw_data/a5_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190905/128.120.88.251/C202SC19080449/raw_data/a5_2.fq.gz
- LuCaP_23.1CR:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s2_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s2_2.fq.gz
- LuCaP_70CR:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s4_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s4_2.fq.gz
- LuCaP_73CR:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s6_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s6_2.fq.gz
- LuCaP_77CR:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s7_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s7_2.fq.gz
- LuCaP_86.2CR:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s10_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s10_2.fq.gz
- LuCaP_96CR:
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s12_1.fq.gz
-     - /mnt/cfce-stor3/projects/freedman-HiChIP/raw_data_novogene.com/20190611_32_CfmeDNA/hwftp.novogene.com/C202SC19050718/raw_data/s12_2.fq.gz
- R103:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R103_AF_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R103_AF_2.fq.gz
- R1:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R1_EMI_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R1_EMI_2.fq.gz
- R23:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R23_LD020_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R23_LD020_2.fq.gz
- R24:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R24_LD021_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R24_LD021_2.fq.gz
- R25:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R25_LD005_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R25_LD005_2.fq.gz
- R26:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R26_LD006_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R26_LD006_2.fq.gz
- R27:    
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R27_LD007_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R27_LD007_2.fq.gz
- R28:    
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R28_LD008_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R28_LD008_2.fq.gz
-# R2:    
-#    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R2_CG_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R2_CG_2.fq.gz
- R3:    
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R3_CS_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R3_CS_2.fq.gz
- R42:    
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R42_LD013_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R42_LD013_2.fq.gz
- R43:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R43_LD015_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R43_LD015_2.fq.gz
- R44:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R44_LD019_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R44_LD019_2.fq.gz
- R45:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R45_LD024_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R45_LD024_2.fq.gz
- R57:    
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R57_LD016_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R57_LD016_2.fq.gz
- R73:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R73_GD_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R73_GD_2.fq.gz
- R74:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R74_LD014_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R74_LD014_2.fq.gz
- R75:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R75_LD018_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R75_LD018_2.fq.gz
- R90:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R90_LD023_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R90_LD023_2.fq.gz
- R9:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R9_EM_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/R9_EM_2.fq.gz
- S017:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S017_CTRL_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S017_CTRL_2.fq.gz
- S019:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S019_CTRL_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S019_CTRL_2.fq.gz
- S020:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S020_CTRL_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S020_CTRL_2.fq.gz
- S021:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S021_CTRL_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S021_CTRL_2.fq.gz
- S022:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S022_CTRL_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S022_CTRL_2.fq.gz
- S027:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S027_CTRL_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S027_CTRL_2.fq.gz
- S028:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S028_CTRL_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S028_CTRL_2.fq.gz
- S036:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S036_CTRL_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S036_CTRL_2.fq.gz
- S037:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S037_CTRL_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S037_CTRL_2.fq.gz
- S038:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S038_CTRL_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S038_CTRL_2.fq.gz
- S039:
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S039_CTRL_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S039_CTRL_2.fq.gz
- S040:    
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S040_CTRL_1.fq.gz
-    - /n/scratch3/users/s/scb20/medips/normal_medip/normal_fq/S040_CTRL_2.fq.gz
-# J17:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J17_CKDL200161515-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J17_CKDL200161515-1a_HCHNCBBXX_L1_2.fq.gz
-# J18:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J18_CKDL200161516-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J18_CKDL200161516-1a_HCHNCBBXX_L1_2.fq.gz
-# J19:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J19_CKDL200161517-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J19_CKDL200161517-1a_HCHNCBBXX_L1_2.fq.gz
-# J20:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J20_CKDL200161518-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J20_CKDL200161518-1a_HCHNCBBXX_L1_2.fq.gz
-# J21:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J21_CKDL200161519-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J21_CKDL200161519-1a_HCHNCBBXX_L1_2.fq.gz
-# J22:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J22_CKDL200161520-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J22_CKDL200161520-1a_HCHNCBBXX_L1_2.fq.gz
-# J23:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J23_CKDL200161521-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J23_CKDL200161521-1a_HCHNCBBXX_L1_2.fq.gz
-# J24:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J24_CKDL200161522-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J24_CKDL200161522-1a_HCHNCBBXX_L1_2.fq.gz
-# J25:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J25_CKDL200161523-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J25_CKDL200161523-1a_HCHNCBBXX_L1_2.fq.gz
-# J26:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J26_CKDL200161524-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J26_CKDL200161524-1a_HCHNCBBXX_L1_2.fq.gz
-# J27:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J27_CKDL200161525-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J27_CKDL200161525-1a_HCHNCBBXX_L1_2.fq.gz
-# J28:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J28_CKDL200161526-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J28_CKDL200161526-1a_HCHNCBBXX_L1_2.fq.gz
-# J29:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J29_CKDL200161527-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J29_CKDL200161527-1a_HCHNCBBXX_L1_2.fq.gz
-# J30:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J30_CKDL200161528-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J30_CKDL200161528-1a_HCHNCBBXX_L1_2.fq.gz
-# J31:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J31_CKDL200161529-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J31_CKDL200161529-1a_HCHNCBBXX_L1_2.fq.gz
-# J32:
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J32_CKDL200161530-1a_HCHNCBBXX_L1_1.fq.gz
-#    - /n/scratch3/users/s/scb20/medips/workflow/data/J32_CKDL200161530-1a_HCHNCBBXX_L1_2.fq.gz
+ mCRPC135:
+     - data/mCRPC135/mCRPC135_CKDL210020378-1a_HKGMJDSX2_L2_1.fq.gz
+     - data/mCRPC135/mCRPC135_CKDL210020378-1a_HKGMJDSX2_L2_2.fq.gz
+ mCRPC136:
+     - data/mCRPC136/mCRPC136_CKDL210020379-1a_HKGMJDSX2_L2_1.fq.gz
+     - data/mCRPC136/mCRPC136_CKDL210020379-1a_HKGMJDSX2_L2_2.fq.gz
+ mCRPC137:
+     - data/mCRPC137/mCRPC137_CKDL210020382-1a_HKJVVDSX2_L1_1.fq.gz
+     - data/mCRPC137/mCRPC137_CKDL210020382-1a_HKJVVDSX2_L1_2.fq.gz
+ mCRPC138:
+     - data/mCRPC138/mCRPC138_CKDL210020383-1a_HKJVVDSX2_L1_1.fq.gz
+     - data/mCRPC138/mCRPC138_CKDL210020383-1a_HKJVVDSX2_L1_2.fq.gz
+ mCRPC139:
+     - data/mCRPC139/mCRPC139_CKDL210020384-1a_HKGJ5DSX2_L1_1.fq.gz
+     - data/mCRPC139/mCRPC139_CKDL210020384-1a_HKGJ5DSX2_L1_2.fq.gz
+ mCRPC140:
+     - data/mCRPC140/mCRPC140_CKDL210020385-1a_HKJVVDSX2_L1_1.fq.gz
+     - data/mCRPC140/mCRPC140_CKDL210020385-1a_HKJVVDSX2_L1_2.fq.gz
+ mCRPC141:
+     - data/mCRPC141/mCRPC141_CKDL210020386-1a_HKJL7DSX2_L2_1.fq.gz
+     - data/mCRPC141/mCRPC141_CKDL210020386-1a_HKJL7DSX2_L2_2.fq.gz
+ mCRPC142:
+     - data/mCRPC142/mCRPC142_CKDL210020387-1a_HKJL7DSX2_L1_1.fq.gz
+     - data/mCRPC142/mCRPC142_CKDL210020387-1a_HKJL7DSX2_L1_2.fq.gz
+ mCRPC143:
+     - data/mCRPC143/mCRPC143_CKDL210020388-1a_HKGMJDSX2_L2_1.fq.gz
+     - data/mCRPC143/mCRPC143_CKDL210020388-1a_HKGMJDSX2_L2_2.fq.gz
+ mCRPC144:
+     - data/mCRPC144/mCRPC144_CKDL210020389-1a_HKJL7DSX2_L2_1.fq.gz
+     - data/mCRPC144/mCRPC144_CKDL210020389-1a_HKJL7DSX2_L2_2.fq.gz
+ mCRPC145:
+     - data/mCRPC145/mCRPC145_CKDL210020390-1a_HKJ2YDSX2_L3_1.fq.gz
+     - data/mCRPC145/mCRPC145_CKDL210020390-1a_HKJ2YDSX2_L3_2.fq.gz
+ mCRPC146:
+     - data/mCRPC146/mCRPC146_CKDL210020391-1a_HKGMJDSX2_L2_1.fq.gz
+     - data/mCRPC146/mCRPC146_CKDL210020391-1a_HKGMJDSX2_L2_2.fq.gz
+ mCRPC147:
+     - data/mCRPC147/mCRPC147_CKDL210020392-1a_HKGMJDSX2_L1_1.fq.gz
+     - data/mCRPC147/mCRPC147_CKDL210020392-1a_HKGMJDSX2_L1_2.fq.gz
+ mCRPC148:
+     - data/mCRPC148/mCRPC148_CKDL210020393-1a_HKGMJDSX2_L2_1.fq.gz
+     - data/mCRPC148/mCRPC148_CKDL210020393-1a_HKGMJDSX2_L2_2.fq.gz
+ mCRPC149:
+     - data/mCRPC149/mCRPC149_CKDL210020394-1a_HKJ2YDSX2_L3_1.fq.gz
+     - data/mCRPC149/mCRPC149_CKDL210020394-1a_HKJ2YDSX2_L3_2.fq.gz
+ mCRPC150:
+     - data/mCRPC150/mCRPC150_CKDL210020395-1a_HKJ2YDSX2_L2_1.fq.gz
+     - data/mCRPC150/mCRPC150_CKDL210020395-1a_HKJ2YDSX2_L2_2.fq.gz
+ mCRPC151:
+     - data/mCRPC151/mCRPC151_CKDL210020396-1a_HKJ2YDSX2_L3_1.fq.gz
+     - data/mCRPC151/mCRPC151_CKDL210020396-1a_HKJ2YDSX2_L3_2.fq.gz
+ mCRPC152:
+     - data/mCRPC152/mCRPC152_CKDL210020397-1a_HKJ2YDSX2_L2_1.fq.gz
+     - data/mCRPC152/mCRPC152_CKDL210020397-1a_HKJ2YDSX2_L2_2.fq.gz
+ mCRPC153:
+     - data/mCRPC153/mCRPC153_CKDL210020398-1a_HKJ2YDSX2_L2_1.fq.gz
+     - data/mCRPC153/mCRPC153_CKDL210020398-1a_HKJ2YDSX2_L2_2.fq.gz
+ mCRPC154:
+     - data/mCRPC154/mCRPC154_CKDL210020399-1a_HKJ2YDSX2_L2_1.fq.gz
+     - data/mCRPC154/mCRPC154_CKDL210020399-1a_HKJ2YDSX2_L2_2.fq.gz
+ mCRPC155:
+     - data/mCRPC155/mCRPC155_CKDL210020400-1a_HKJ2YDSX2_L2_1.fq.gz
+     - data/mCRPC155/mCRPC155_CKDL210020400-1a_HKJ2YDSX2_L2_2.fq.gz
+ mCRPC156:
+     - data/mCRPC156/mCRPC156_CKDL210020401-1a_HKJ2YDSX2_L3_1.fq.gz
+     - data/mCRPC156/mCRPC156_CKDL210020401-1a_HKJ2YDSX2_L3_2.fq.gz
+ mCRPC157:
+     - data/mCRPC157/mCRPC157_CKDL210020402-1a_HKJ2YDSX2_L3_1.fq.gz
+     - data/mCRPC157/mCRPC157_CKDL210020402-1a_HKJ2YDSX2_L3_2.fq.gz
+ mCRPC158:
+     - data/mCRPC158/mCRPC158_CKDL210020403-1a_HKJ2YDSX2_L3_1.fq.gz
+     - data/mCRPC158/mCRPC158_CKDL210020403-1a_HKJ2YDSX2_L3_2.fq.gz
+ mCRPC159:
+     - data/mCRPC159/mCRPC159_CKDL210020404-1a_HKJ2YDSX2_L3_1.fq.gz
+     - data/mCRPC159/mCRPC159_CKDL210020404-1a_HKJ2YDSX2_L3_2.fq.gz
+ mCRPC160:
+     - data/mCRPC160/mCRPC160_CKDL210020405-1a_HKJ2YDSX2_L3_1.fq.gz
+     - data/mCRPC160/mCRPC160_CKDL210020405-1a_HKJ2YDSX2_L3_2.fq.gz
+# LuCaP_49_2018:
+    - data/S58_1.fq.gz
+    - data/S58_2.fq.gz
+# LuCaP_208.2:
+    - data/s16_1.fq.gz
+    - data/s16_2.fq.gz
+# LuCaP_173.1:
+    - data/J10/J10_HY2FCBBXX_L005_1.fq.gz
+    - data/J10/J10_HY2FCBBXX_L005_2.fq.gz
+# LuCaP_93:
+    - data/J7/J7_HY2FCBBXX_L005_1.fq.gz
+    - data/J7/J7_HY2FCBBXX_L005_2.fq.gz
+# LuCaP_145.1:
+    - data/J8/J8_HY2FCBBXX_L005_1.fq.gz
+    - data/J8/J8_HY2FCBBXX_L005_2.fq.gz
+# LuCaP_145.2:
+    - data/J9/J9_HY2FCBBXX_L005_1.fq.gz
+    - data/J9/J9_HY2FCBBXX_L005_2.fq.gz
+# LuCaP_147:
+    - data/a4_1.fq.gz
+    - data/a4_2.fq.gz
+# LuCaP_23.1:
+    - data/s1_1.fq.gz
+    - data/s1_2.fq.gz
+# LuCaP_35:
+    - data/s3_1.fq.gz
+    - data/s3_2.fq.gz
+# LuCaP_73:
+    - data/s5_1.fq.gz
+    - data/s5_2.fq.gz
+# LuCaP_81:
+    - data/s8_1.fq.gz
+    - data/s8_2.fq.gz
+# LuCaP_86.2:
+    - data/s9_1.fq.gz
+    - data/s9_2.fq.gz
+# LuCaP_96:
+    - data/s11_1.fq.gz
+    - data/s11_2.fq.gz
+# LuCaP_105:
+    - data/s13_1.fq.gz
+    - data/s13_2.fq.gz
+# LuCaP_136:
+    - data/s14_1.fq.gz
+    - data/s14_2.fq.gz
+# LuCaP_58:
+    - data/J2/J2_HY2FCBBXX_L005_1.fq.gz
+    - data/J2/J2_HY2FCBBXX_L005_2.fq.gz
+# LuCaP_70:
+    - data/J3/J3_HY2FCBBXX_L005_1.fq.gz
+    - data/J3/J3_HY2FCBBXX_L005_2.fq.gz
+# LuCaP_77:
+    - data/J4/J4_HY2FCBBXX_L005_1.fq.gz
+    - data/J4/J4_HY2FCBBXX_L005_2.fq.gz
+# LuCaP_78:
+    - data/J5/J5_HY2FCBBXX_L005_1.fq.gz
+    - data/J5/J5_HY2FCBBXX_L005_2.fq.gz
+# LuCaP_92:
+    - data/J6/J6_HY2FCBBXX_L005_1.fq.gz
+    - data/J6/J6_HY2FCBBXX_L005_2.fq.gz
+# LuCaP_35CR:
+    - data/a1_1.fq.gz
+    - data/a1_2.fq.gz
+# LuCaP_78CR:
+    - data/a2_1.fq.gz
+    - data/a2_2.fq.gz
+# LuCaP_136CR:
+    - data/a3_1.fq.gz
+    - data/a3_2.fq.gz
+# LuCaP_147CR:
+    - data/a5_1.fq.gz
+    - data/a5_2.fq.gz
+# LuCaP_23.1CR:
+    - data/s2_1.fq.gz
+    - data/s2_2.fq.gz
+# LuCaP_70CR:
+    - data/s4_1.fq.gz
+    - data/s4_2.fq.gz
+# LuCaP_73CR:
+    - data/s6_1.fq.gz
+    - data/s6_2.fq.gz
+# LuCaP_77CR:
+    - data/s7_1.fq.gz
+    - data/s7_2.fq.gz
+# LuCaP_86.2CR:
+    - data/s10_1.fq.gz
+    - data/s10_2.fq.gz
+# LuCaP_96CR:
+    - data/s12_1.fq.gz
+    - data/s12_2.fq.gz
+ mCRPC001:
+    - data/mCRPC001/mCRPC001_CKDL210013452-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mCRPC001/mCRPC001_CKDL210013452-1a_HF3CLDSX2_L1_2.fq.gz
+ mCRPC002:
+    - data/mCRPC002/mCRPC002_CKDL210013453-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mCRPC002/mCRPC002_CKDL210013453-1a_HF3CLDSX2_L1_2.fq.gz
+ mCRPC003:
+    - data/mCRPC003/mCRPC003_CKDL210013455-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mCRPC003/mCRPC003_CKDL210013455-1a_HF3CLDSX2_L1_2.fq.gz
+ mCRPC004:
+    - data/mCRPC004/mCRPC004_CKDL210013456-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mCRPC004/mCRPC004_CKDL210013456-1a_HF3CLDSX2_L1_2.fq.gz
+ mCRPC005:
+    - data/mCRPC005/mCRPC005_CKDL210013457-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mCRPC005/mCRPC005_CKDL210013457-1a_HF3CLDSX2_L1_2.fq.gz
+ mCRPC006:
+    - data/mCRPC006/mCRPC006_CKDL210013458-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mCRPC006/mCRPC006_CKDL210013458-1a_HF3CLDSX2_L1_2.fq.gz
+ mCRPC007:
+    - data/mCRPC007/mCRPC007_CKDL210013461-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mCRPC007/mCRPC007_CKDL210013461-1a_HF3CLDSX2_L1_2.fq.gz
+ mCRPC008:
+    - data/mCRPC008/mCRPC008_CKDL210013462-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mCRPC008/mCRPC008_CKDL210013462-1a_HF3CLDSX2_L1_2.fq.gz
+ mCRPC009:
+    - data/mCRPC009/mCRPC009_CKDL210013463-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mCRPC009/mCRPC009_CKDL210013463-1a_HF3CLDSX2_L1_2.fq.gz
+ mCRPC010:
+    - data/mCRPC010/mCRPC010_CKDL210013464-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mCRPC010/mCRPC010_CKDL210013464-1a_HF3CLDSX2_L1_2.fq.gz
+ mCRPC011:
+    - data/mCRPC011/mCRPC011_CKDL210013465-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mCRPC011/mCRPC011_CKDL210013465-1a_HF3CLDSX2_L1_2.fq.gz
+ mCRPC012:
+    - data/mCRPC012/mCRPC012_CKDL210013467-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC012/mCRPC012_CKDL210013467-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC013:
+    - data/mCRPC013/mCRPC013_CKDL210013468-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC013/mCRPC013_CKDL210013468-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC014:
+    - data/mCRPC014/mCRPC014_CKDL210013470-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC014/mCRPC014_CKDL210013470-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC015:
+    - data/mCRPC015/mCRPC015_CKDL210013471-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC015/mCRPC015_CKDL210013471-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC016:
+    - data/mCRPC016/mCRPC016_CKDL210013472-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC016/mCRPC016_CKDL210013472-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC017:
+    - data/mCRPC017/mCRPC017_CKDL210013473-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC017/mCRPC017_CKDL210013473-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC018:
+    - data/mCRPC018/mCRPC018_CKDL210013474-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC018/mCRPC018_CKDL210013474-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC019:
+    - data/mCRPC019/mCRPC019_CKDL210013475-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC019/mCRPC019_CKDL210013475-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC020:
+    - data/mCRPC020/mCRPC020_CKDL210013476-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC020/mCRPC020_CKDL210013476-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC021:
+    - data/mCRPC021/mCRPC021_CKDL210013478-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC021/mCRPC021_CKDL210013478-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC022:
+    - data/mCRPC022/mCRPC022_CKDL210013479-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC022/mCRPC022_CKDL210013479-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC023:
+    - data/mCRPC023/mCRPC023_CKDL210013480-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC023/mCRPC023_CKDL210013480-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC024:
+    - data/mCRPC024/mCRPC024_CKDL210013481-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC024/mCRPC024_CKDL210013481-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC025:
+    - data/mCRPC025/mCRPC025_CKDL210013483-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC025/mCRPC025_CKDL210013483-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC026:
+    - data/mCRPC026/mCRPC026_CKDL210013484-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC026/mCRPC026_CKDL210013484-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC027:
+    - data/mCRPC027/mCRPC027_CKDL210013485-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC027/mCRPC027_CKDL210013485-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC028:
+    - data/mCRPC028/mCRPC028_CKDL210013486-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC028/mCRPC028_CKDL210013486-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC029:
+    - data/mCRPC029/mCRPC029_CKDL210013488-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC029/mCRPC029_CKDL210013488-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC030:
+    - data/mCRPC030/mCRPC030_CKDL210013489-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC030/mCRPC030_CKDL210013489-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC031:
+    - data/mCRPC031/mCRPC031_CKDL210013490-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC031/mCRPC031_CKDL210013490-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC032:
+    - data/mCRPC032/mCRPC032_CKDL210013491-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC032/mCRPC032_CKDL210013491-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC033:
+    - data/mCRPC033/mCRPC033_CKDL210013493-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC033/mCRPC033_CKDL210013493-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC034:
+    - data/mCRPC034/mCRPC034_CKDL210013494-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC034/mCRPC034_CKDL210013494-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC035:
+    - data/mCRPC035/mCRPC035_CKDL210013495-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC035/mCRPC035_CKDL210013495-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC036:
+    - data/mCRPC036/mCRPC036_CKDL210013496-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC036/mCRPC036_CKDL210013496-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC037:
+    - data/mCRPC037/mCRPC037_CKDL210013498-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC037/mCRPC037_CKDL210013498-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC038:
+    - data/mCRPC038/mCRPC038_CKDL210013499-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mCRPC038/mCRPC038_CKDL210013499-1a_HF35HDSX2_L1_2.fq.gz
+ mCRPC039:
+    - data/mCRPC039/mCRPC039_CKDL210014659-1a_HH5WLDSX2_L3_1.fq.gz
+    - data/mCRPC039/mCRPC039_CKDL210014659-1a_HH5WLDSX2_L3_2.fq.gz
+ mCRPC040:
+    - data/mCRPC040/mCRPC040_CKDL210014660-1a_HH5WLDSX2_L3_1.fq.gz
+    - data/mCRPC040/mCRPC040_CKDL210014660-1a_HH5WLDSX2_L3_2.fq.gz
+ mCRPC041:
+    - data/mCRPC041/mCRPC041_CKDL210014661-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC041/mCRPC041_CKDL210014661-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC042:
+    - data/mCRPC042/mCRPC042_CKDL210014662-1a_HH5WLDSX2_L3_1.fq.gz
+    - data/mCRPC042/mCRPC042_CKDL210014662-1a_HH5WLDSX2_L3_2.fq.gz
+ mCRPC043:
+    - data/mCRPC043/mCRPC043_CKDL210014663-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC043/mCRPC043_CKDL210014663-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC044:
+    - data/mCRPC044/mCRPC044_CKDL210014664-1a_HH5WLDSX2_L3_1.fq.gz
+    - data/mCRPC044/mCRPC044_CKDL210014664-1a_HH5WLDSX2_L3_2.fq.gz
+ mCRPC045:
+    - data/mCRPC045/mCRPC045_CKDL210014665-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC045/mCRPC045_CKDL210014665-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC046:
+    - data/mCRPC046/mCRPC046_CKDL210014666-1a_HH5WLDSX2_L3_1.fq.gz
+    - data/mCRPC046/mCRPC046_CKDL210014666-1a_HH5WLDSX2_L3_2.fq.gz
+ mCRPC047:
+    - data/mCRPC047/mCRPC047_CKDL210014667-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC047/mCRPC047_CKDL210014667-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC048:
+    - data/mCRPC048/mCRPC048_CKDL210014668-1a_HH5WLDSX2_L3_1.fq.gz
+    - data/mCRPC048/mCRPC048_CKDL210014668-1a_HH5WLDSX2_L3_2.fq.gz
+ mCRPC049:
+    - data/mCRPC049/mCRPC049_CKDL210014669-1a_HH5WLDSX2_L3_1.fq.gz
+    - data/mCRPC049/mCRPC049_CKDL210014669-1a_HH5WLDSX2_L3_2.fq.gz
+ mCRPC050:
+    - data/mCRPC050/mCRPC050_CKDL210014670-1a_HH5YNDSX2_L1_1.fq.gz
+    - data/mCRPC050/mCRPC050_CKDL210014670-1a_HH5YNDSX2_L1_2.fq.gz
+ mCRPC051:
+    - data/mCRPC051/mCRPC051_CKDL210014671-1a_HH5YNDSX2_L1_1.fq.gz
+    - data/mCRPC051/mCRPC051_CKDL210014671-1a_HH5YNDSX2_L1_2.fq.gz
+ mCRPC052:
+    - data/mCRPC052/mCRPC052_CKDL210014672-1a_HH5YNDSX2_L1_1.fq.gz
+    - data/mCRPC052/mCRPC052_CKDL210014672-1a_HH5YNDSX2_L1_2.fq.gz
+ mCRPC053:
+    - data/mCRPC053/mCRPC053_CKDL210014673-1a_HH5YNDSX2_L1_1.fq.gz
+    - data/mCRPC053/mCRPC053_CKDL210014673-1a_HH5YNDSX2_L1_2.fq.gz
+ mCRPC054:
+    - data/mCRPC054/mCRPC054_CKDL210014674-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC054/mCRPC054_CKDL210014674-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC055:
+    - data/mCRPC055/mCRPC055_CKDL210014675-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC055/mCRPC055_CKDL210014675-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC056:
+    - data/mCRPC056/mCRPC056_CKDL210014676-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC056/mCRPC056_CKDL210014676-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC057:
+    - data/mCRPC057/mCRPC057_CKDL210014677-1a_HH5YNDSX2_L1_1.fq.gz
+    - data/mCRPC057/mCRPC057_CKDL210014677-1a_HH5YNDSX2_L1_2.fq.gz
+ mCRPC058:
+    - data/mCRPC058/mCRPC058_CKDL210014678-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC058/mCRPC058_CKDL210014678-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC059:
+    - data/mCRPC059/mCRPC059_CKDL210014679-1a_HH5YNDSX2_L1_1.fq.gz
+    - data/mCRPC059/mCRPC059_CKDL210014679-1a_HH5YNDSX2_L1_2.fq.gz
+ mCRPC060:
+    - data/mCRPC060/mCRPC060_CKDL210014680-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC060/mCRPC060_CKDL210014680-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC061:
+    - data/mCRPC061/mCRPC061_CKDL210014681-1a_HH5YNDSX2_L1_1.fq.gz
+    - data/mCRPC061/mCRPC061_CKDL210014681-1a_HH5YNDSX2_L1_2.fq.gz
+ mCRPC062:
+    - data/mCRPC062/mCRPC062_CKDL210014682-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC062/mCRPC062_CKDL210014682-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC063:
+    - data/mCRPC063/mCRPC063_CKDL210014683-1a_HH5YNDSX2_L1_1.fq.gz
+    - data/mCRPC063/mCRPC063_CKDL210014683-1a_HH5YNDSX2_L1_2.fq.gz
+ mCRPC064:
+    - data/mCRPC064/mCRPC064_CKDL210014684-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC064/mCRPC064_CKDL210014684-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC065:
+    - data/mCRPC065/mCRPC065_CKDL210014685-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC065/mCRPC065_CKDL210014685-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC066:
+    - data/mCRPC066/mCRPC066_CKDL210014686-1a_HH5YNDSX2_L1_1.fq.gz
+    - data/mCRPC066/mCRPC066_CKDL210014686-1a_HH5YNDSX2_L1_2.fq.gz
+ mCRPC067:
+    - data/mCRPC067/mCRPC067_CKDL210014687-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC067/mCRPC067_CKDL210014687-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC068:
+    - data/mCRPC068/mCRPC068_CKDL210014688-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC068/mCRPC068_CKDL210014688-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC069:
+    - data/mCRPC069/mCRPC069_CKDL210014689-1a_HH5YNDSX2_L1_1.fq.gz
+    - data/mCRPC069/mCRPC069_CKDL210014689-1a_HH5YNDSX2_L1_2.fq.gz
+ mCRPC070:
+    - data/mCRPC070/mCRPC070_CKDL210014690-1a_HH5YNDSX2_L1_1.fq.gz
+    - data/mCRPC070/mCRPC070_CKDL210014690-1a_HH5YNDSX2_L1_2.fq.gz
+ mCRPC071:
+    - data/mCRPC071/mCRPC071_CKDL210014691-1a_HH5YNDSX2_L1_1.fq.gz
+    - data/mCRPC071/mCRPC071_CKDL210014691-1a_HH5YNDSX2_L1_2.fq.gz
+ mCRPC072:
+    - data/mCRPC072/mCRPC072_CKDL210014692-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC072/mCRPC072_CKDL210014692-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC073:
+    - data/mCRPC073/mCRPC073_CKDL210014693-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC073/mCRPC073_CKDL210014693-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC074:
+    - data/mCRPC074/mCRPC074_CKDL210014694-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC074/mCRPC074_CKDL210014694-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC075:
+    - data/mCRPC075/mCRPC075_CKDL210014695-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC075/mCRPC075_CKDL210014695-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC076:
+    - data/mCRPC076/mCRPC076_CKDL210014696-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC076/mCRPC076_CKDL210014696-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC077:
+    - data/mCRPC077/mCRPC077_CKDL210014697-1a_HH5MLDSX2_L2_1.fq.gz
+    - data/mCRPC077/mCRPC077_CKDL210014697-1a_HH5MLDSX2_L2_2.fq.gz
+ mCRPC078:
+    - data/mCRPC078/mCRPC078_CKDL210014698-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC078/mCRPC078_CKDL210014698-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC079:
+    - data/mCRPC079/mCRPC079_CKDL210014699-1a_HH5MLDSX2_L2_1.fq.gz
+    - data/mCRPC079/mCRPC079_CKDL210014699-1a_HH5MLDSX2_L2_2.fq.gz
+ mCRPC080:
+    - data/mCRPC080/mCRPC080_CKDL210014700-1a_HH5MLDSX2_L2_1.fq.gz
+    - data/mCRPC080/mCRPC080_CKDL210014700-1a_HH5MLDSX2_L2_2.fq.gz
+ mCRPC081:
+    - data/mCRPC081/mCRPC081_CKDL210014701-1a_HH5MLDSX2_L2_1.fq.gz
+    - data/mCRPC081/mCRPC081_CKDL210014701-1a_HH5MLDSX2_L2_2.fq.gz
+ mCRPC082:
+    - data/mCRPC082/mCRPC082_CKDL210014702-1a_HH5MLDSX2_L2_1.fq.gz
+    - data/mCRPC082/mCRPC082_CKDL210014702-1a_HH5MLDSX2_L2_2.fq.gz
+ mCRPC083:
+    - data/mCRPC083/mCRPC083_CKDL210014703-1a_HH5MLDSX2_L2_1.fq.gz
+    - data/mCRPC083/mCRPC083_CKDL210014703-1a_HH5MLDSX2_L2_2.fq.gz
+ mCRPC084:
+    - data/mCRPC084/mCRPC084_CKDL210014704-1a_HH5MLDSX2_L2_1.fq.gz
+    - data/mCRPC084/mCRPC084_CKDL210014704-1a_HH5MLDSX2_L2_2.fq.gz
+ mCRPC085:
+    - data/mCRPC085/mCRPC085_CKDL210014705-1a_HH5MLDSX2_L2_1.fq.gz
+    - data/mCRPC085/mCRPC085_CKDL210014705-1a_HH5MLDSX2_L2_2.fq.gz
+ mCRPC086:
+    - data/mCRPC086/mCRPC086_CKDL210014706-1a_HH5MLDSX2_L2_1.fq.gz
+    - data/mCRPC086/mCRPC086_CKDL210014706-1a_HH5MLDSX2_L2_2.fq.gz
+ mCRPC087:
+    - data/mCRPC087/mCRPC087_CKDL210014707-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC087/mCRPC087_CKDL210014707-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC088:
+    - data/mCRPC088/mCRPC088_CKDL210014708-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC088/mCRPC088_CKDL210014708-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC089:
+    - data/mCRPC089/mCRPC089_CKDL210014709-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC089/mCRPC089_CKDL210014709-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC090:
+    - data/mCRPC090/mCRPC090_CKDL210014710-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC090/mCRPC090_CKDL210014710-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC091:
+    - data/mCRPC091/mCRPC091_CKDL210014711-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC091/mCRPC091_CKDL210014711-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC092:
+    - data/mCRPC092/mCRPC092_CKDL210014712-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC092/mCRPC092_CKDL210014712-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC093:
+    - data/mCRPC093/mCRPC093_CKDL210014713-1a_HH72CDSX2_L2_1.fq.gz
+    - data/mCRPC093/mCRPC093_CKDL210014713-1a_HH72CDSX2_L2_2.fq.gz
+ mCRPC094:
+    - data/mCRPC094/mCRPC094_CKDL210014714-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC094/mCRPC094_CKDL210014714-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC095:
+    - data/mCRPC095/mCRPC095_CKDL210014715-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC095/mCRPC095_CKDL210014715-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC096:
+    - data/mCRPC096/mCRPC096_CKDL210014716-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC096/mCRPC096_CKDL210014716-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC097:
+    - data/mCRPC097/mCRPC097_CKDL210014717-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC097/mCRPC097_CKDL210014717-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC098:
+    - data/mCRPC098/mCRPC098_CKDL210014718-1a_HH5WLDSX2_L4_1.fq.gz
+    - data/mCRPC098/mCRPC098_CKDL210014718-1a_HH5WLDSX2_L4_2.fq.gz
+ mCRPC099:
+    - data/mCRPC099/mCRPC099_CKDL210014719-1a_HH72CDSX2_L2_1.fq.gz
+    - data/mCRPC099/mCRPC099_CKDL210014719-1a_HH72CDSX2_L2_2.fq.gz
+ mCRPC100:
+    - data/mCRPC100/mCRPC100_CKDL210014720-1a_HH72CDSX2_L2_1.fq.gz
+    - data/mCRPC100/mCRPC100_CKDL210014720-1a_HH72CDSX2_L2_2.fq.gz
+ mCRPC101:
+    - data/mCRPC101/mCRPC101_CKDL210014721-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC101/mCRPC101_CKDL210014721-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC102:
+    - data/mCRPC102/mCRPC102_CKDL210014722-1a_HH72CDSX2_L2_1.fq.gz
+    - data/mCRPC102/mCRPC102_CKDL210014722-1a_HH72CDSX2_L2_2.fq.gz
+ mCRPC103:
+    - data/mCRPC103/mCRPC103_CKDL210014723-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC103/mCRPC103_CKDL210014723-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC104:
+    - data/mCRPC104/mCRPC104_CKDL210014724-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC104/mCRPC104_CKDL210014724-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC105:
+    - data/mCRPC105/mCRPC105_CKDL210014725-1a_HH72CDSX2_L2_1.fq.gz
+    - data/mCRPC105/mCRPC105_CKDL210014725-1a_HH72CDSX2_L2_2.fq.gz
+ mCRPC106:
+    - data/mCRPC106/mCRPC106_CKDL210014726-1a_HH72CDSX2_L2_1.fq.gz
+    - data/mCRPC106/mCRPC106_CKDL210014726-1a_HH72CDSX2_L2_2.fq.gz
+ mCRPC107:
+    - data/mCRPC107/mCRPC107_CKDL210014727-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC107/mCRPC107_CKDL210014727-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC108:
+    - data/mCRPC108/mCRPC108_CKDL210014728-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC108/mCRPC108_CKDL210014728-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC109:
+    - data/mCRPC109/mCRPC109_CKDL210014729-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC109/mCRPC109_CKDL210014729-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC110:
+    - data/mCRPC110/mCRPC110_CKDL210014730-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC110/mCRPC110_CKDL210014730-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC111:
+    - data/mCRPC111/mCRPC111_CKDL210014731-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC111/mCRPC111_CKDL210014731-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC112:
+    - data/mCRPC112/mCRPC112_CKDL210014732-1a_HH72CDSX2_L2_1.fq.gz
+    - data/mCRPC112/mCRPC112_CKDL210014732-1a_HH72CDSX2_L2_2.fq.gz
+ mCRPC113:
+    - data/mCRPC113/mCRPC113_CKDL210014733-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC113/mCRPC113_CKDL210014733-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC114:
+    - data/mCRPC114/mCRPC114_CKDL210014734-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC114/mCRPC114_CKDL210014734-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC115:
+    - data/mCRPC115/mCRPC115_CKDL210014735-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC115/mCRPC115_CKDL210014735-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC116:
+    - data/mCRPC116/mCRPC116_CKDL210014736-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC116/mCRPC116_CKDL210014736-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC117:
+    - data/mCRPC117/mCRPC117_CKDL210014737-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC117/mCRPC117_CKDL210014737-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC118:
+    - data/mCRPC118/mCRPC118_CKDL210014738-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC118/mCRPC118_CKDL210014738-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC119:
+    - data/mCRPC119/mCRPC119_CKDL210014739-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC119/mCRPC119_CKDL210014739-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC120:
+    - data/mCRPC120/mCRPC120_CKDL210014740-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC120/mCRPC120_CKDL210014740-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC121:
+    - data/mCRPC121/mCRPC121_CKDL210014741-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC121/mCRPC121_CKDL210014741-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC122:
+    - data/mCRPC122/mCRPC122_CKDL210014742-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC122/mCRPC122_CKDL210014742-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC123:
+    - data/mCRPC123/mCRPC123_CKDL210014743-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC123/mCRPC123_CKDL210014743-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC124:
+    - data/mCRPC124/mCRPC124_CKDL210014744-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC124/mCRPC124_CKDL210014744-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC125:
+    - data/mCRPC125/mCRPC125_CKDL210014745-1a_HH72CDSX2_L1_1.fq.gz
+    - data/mCRPC125/mCRPC125_CKDL210014745-1a_HH72CDSX2_L1_2.fq.gz
+ mCRPC126:
+    - data/mCRPC126/mCRPC126_CKDL210014746-1a_HH72CDSX2_L2_1.fq.gz
+    - data/mCRPC126/mCRPC126_CKDL210014746-1a_HH72CDSX2_L2_2.fq.gz
+ mCRPC127:
+    - data/mCRPC127/mCRPC127_CKDL210014747-1a_HH72CDSX2_L2_1.fq.gz
+    - data/mCRPC127/mCRPC127_CKDL210014747-1a_HH72CDSX2_L2_2.fq.gz
+ mCRPC128:
+    - data/mCRPC128/mCRPC128_CKDL210014748-1a_HH5MLDSX2_L3_1.fq.gz
+    - data/mCRPC128/mCRPC128_CKDL210014748-1a_HH5MLDSX2_L3_2.fq.gz
+ mCRPC129:
+    - data/mCRPC129/mCRPC129_CKDL210014749-1a_HH5MLDSX2_L3_1.fq.gz
+    - data/mCRPC129/mCRPC129_CKDL210014749-1a_HH5MLDSX2_L3_2.fq.gz
+ mCRPC130:
+    - data/mCRPC130/mCRPC130_CKDL210014750-1a_HH5MLDSX2_L3_1.fq.gz
+    - data/mCRPC130/mCRPC130_CKDL210014750-1a_HH5MLDSX2_L3_2.fq.gz
+ mCRPC131:
+    - data/mCRPC131/mCRPC131_CKDL210014751-1a_HH5MLDSX2_L3_1.fq.gz
+    - data/mCRPC131/mCRPC131_CKDL210014751-1a_HH5MLDSX2_L3_2.fq.gz
+ mCRPC132:
+    - data/mCRPC132/mCRPC132_CKDL210014752-1a_HH5MLDSX2_L3_1.fq.gz
+    - data/mCRPC132/mCRPC132_CKDL210014752-1a_HH5MLDSX2_L3_2.fq.gz
+ mCRPC133:
+    - data/mCRPC133/mCRPC133_CKDL210014753-1a_HH5MLDSX2_L3_1.fq.gz
+    - data/mCRPC133/mCRPC133_CKDL210014753-1a_HH5MLDSX2_L3_2.fq.gz
+ mCRPC134:
+    - data/mCRPC134/mCRPC134_CKDL210014754-1a_HH5MLDSX2_L3_1.fq.gz
+    - data/mCRPC134/mCRPC134_CKDL210014754-1a_HH5MLDSX2_L3_2.fq.gz
+ mNEPC001:
+    - data/mNEPC001/mNEPC001_CKDL210013459-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mNEPC001/mNEPC001_CKDL210013459-1a_HF3CLDSX2_L1_2.fq.gz
+ mNEPC002:
+    - data/mNEPC002/mNEPC002_CKDL210013460-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mNEPC002/mNEPC002_CKDL210013460-1a_HF3CLDSX2_L1_2.fq.gz
+ mNEPC003:
+    - data/mNEPC003/mNEPC003_CKDL210013466-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mNEPC003/mNEPC003_CKDL210013466-1a_HF35HDSX2_L1_2.fq.gz
+ mNEPC004:
+    - data/mNEPC004/mNEPC004_CKDL210013469-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mNEPC004/mNEPC004_CKDL210013469-1a_HF35HDSX2_L1_2.fq.gz
+ mNEPC005:
+    - data/mNEPC005/mNEPC005_CKDL210013477-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mNEPC005/mNEPC005_CKDL210013477-1a_HF35HDSX2_L1_2.fq.gz
+ mNEPC006:
+    - data/mNEPC006/mNEPC006_CKDL210013482-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mNEPC006/mNEPC006_CKDL210013482-1a_HF35HDSX2_L1_2.fq.gz
+ mNEPC007:
+    - data/mNEPC007/mNEPC007_CKDL210013487-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mNEPC007/mNEPC007_CKDL210013487-1a_HF35HDSX2_L1_2.fq.gz
+ mNEPC008:
+    - data/mNEPC008/mNEPC008_CKDL210013492-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mNEPC008/mNEPC008_CKDL210013492-1a_HF35HDSX2_L1_2.fq.gz
+ mNEPC009:
+    - data/mNEPC009/mNEPC009_CKDL210013497-1a_HF35HDSX2_L1_1.fq.gz
+    - data/mNEPC009/mNEPC009_CKDL210013497-1a_HF35HDSX2_L1_2.fq.gz
+ mNEPC010:
+    - data/mNEPC010/mNEPC010_CKDL210013454-1a_HF3CLDSX2_L1_1.fq.gz
+    - data/mNEPC010/mNEPC010_CKDL210013454-1a_HF3CLDSX2_L1_2.fq.gz

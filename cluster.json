@@ -11,10 +11,16 @@
         "mem": "4G",
         "time": "08:00:00"
     },
+    "multiqc":
+    {
+        "partition": "short",
+        "mem": "32G",
+        "time": "04:00:00"
+    },
     "align":
     {
         "partition": "medium",
-        "time": "36:00:00",
+        "time": "45:00:00",
         "mem": "32G"
     },
     "DMRs":
@@ -33,7 +39,7 @@
     {
         "partition": "short",
         "time": "6:00:00",
-        "mem": "64G"
+        "mem": "128G"
     },
     "DMRs_leave_one_out":
     {
@@ -44,7 +50,7 @@
     "medips":
     {
         "partition": "short",
-        "time": "6:00:00",
+        "time": "8:00:00",
         "mem": "32G"
     },
     "group_plots":

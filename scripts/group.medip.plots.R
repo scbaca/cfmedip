@@ -21,7 +21,10 @@ suppressMessages(library(stringr))
 
 group.plots <- function(filelist = NULL, metasheet = NULL,
 			outdir = "out", regulatory = TRUE, 
-			blacklist = blacklist, restrict_up = NULL, restrict_down = NULL) {
+			blacklist = blacklist, 
+			restrict_up = NULL, 
+			restrict_down = NULL,
+			filter.ctDNA = TRUE) {
 
 	set.seed(1)
 
@@ -30,10 +33,18 @@ group.plots <- function(filelist = NULL, metasheet = NULL,
 	if(!all(c("SampleName", "Type") %in% colnames(met))) stop("check metasheet file for required columns")
 
 	#will batch info be included?
-	if("Batch" %in% colnames(met)) show.batch=T
+#	if("Batch" %in% colnames(met)) show.batch=T
+	show.batch=F
 
-	#only use samples labeled case or control in metasheet
-	met = subset(met, Class %in% c("case", "control"))
+	#only use samples labeled case or control in metasheet. remove healthy samples
+	met = subset(met, Class %in% c("case", "control") & Type != "HEALTHY")
+
+
+	#filter by ctDNA content?
+	if(filter.ctDNA) {
+		met = subset(met, ctDNA >= 0.03) 
+		message("filtering samples wtih ctDNA < 0.03")
+	}
 
 	#match files to samples in metasheet
 	file=unlist(strsplit(filelist," ")) 
@@ -123,11 +134,11 @@ group.plots <- function(filelist = NULL, metasheet = NULL,
 	}
 
 	# restrict to specified sites (ie NEPC-up in LuCaPs):
-	if (restrict_up != "none"){
+	if (restrict_up != "none" && restrict_up!= ""){
 		sites_up=import(restrict_up, format="BED") 
 		incl_restrict = incl & (win %over% sites_up)
 		message(sum(incl_restrict), " windows remain after limiting to regions in restrict_up file")
-		if (restrict_down!="none"){
+		if (restrict_down!="none" && restrict_down!=""){
 			sites_down=import(restrict_down, format="BED")
                 	incl_restrict = (incl_restrict | incl & (win %over% sites_down))
                 	message(sum(incl_restrict), " windows remain after limiting to regions in restrict_down file")
@@ -163,42 +174,43 @@ group.plots <- function(filelist = NULL, metasheet = NULL,
 	  mutate(type = grp, id = ids)
 	if(show.batch) tidydf$batch = as.factor(met$Batch)
 	saveRDS(pcs,file.path(outdir,"pca.data.rds"))
+	write.table(pcs$x, file=file.path(outdir,"pca.data.tsv"), row.names=T, col.names=T, quote=F, sep="\t")
 
 	if(show.batch) {
 	ggplot(tidydf, aes(x=PC1, y=PC2, colour = type, shape = batch)) + 
 	  geom_point(size = 1) + 
 	  xlab(paste0("PC1 (", varexp1, "% of variance explained)")) +
 	  ylab(paste0("PC2 (", varexp2, "% of variance explained)"))
-	ggsave(file.path(outdir, "PCA_1_2_cf_plasma.pdf"), width = 3, height = 3)
+	ggsave(file.path(outdir, "PCA_1_2_cf_plasma.pdf"), width = 4, height = 3)
 
 	ggplot(tidydf, aes(x=PC2, y=PC3, colour = type, shape = batch)) + 
 	  geom_point(size = 1) + 
 	  xlab(paste0("PC2 (", varexp2, "% of variance explained)")) +
 	  ylab(paste0("PC3 (", varexp3, "% of variance explained)"))
-	ggsave(file.path(outdir, "PCA_2_3_cf_plasma.pdf"), width = 3, height = 3)
+	ggsave(file.path(outdir, "PCA_2_3_cf_plasma.pdf"), width = 4, height = 3)
 
 	ggplot(tidydf, aes(x=PC3, y=PC4, colour = type, shape = batch)) +                              
 	  geom_point(size = 1) +                                                        
 	  xlab(paste0("PC3 (", varexp3, "% of variance explained)")) +
 	  ylab(paste0("PC4 (", varexp4, "% of variance explained)"))
-	ggsave(file.path(outdir, "PCA_3_4_cf_plasma.pdf"), width = 3, height = 3) 
+	ggsave(file.path(outdir, "PCA_3_4_cf_plasma.pdf"), width = 4, height = 3) 
 	} else {
         ggplot(tidydf, aes(x=PC1, y=PC2, colour = type)) +
           geom_point(size = 1) +
 	  xlab(paste0("PC1 (", varexp1, "% of variance explained)")) +
 	  ylab(paste0("PC2 (", varexp2, "% of variance explained)"))
-        ggsave(file.path(outdir, "PCA_1_2_cf_plasma.pdf"), width = 3, height = 3)
+        ggsave(file.path(outdir, "PCA_1_2_cf_plasma.pdf"), width = 4, height = 3)
 
         ggplot(tidydf, aes(x=PC2, y=PC3, colour = type)) +
           geom_point(size = 1) +
 	  xlab(paste0("PC2 (", varexp2, "% of variance explained)")) +
 	  ylab(paste0("PC3 (", varexp3, "% of variance explained)"))
-        ggsave(file.path(outdir, "PCA_2_3_cf_plasma.pdf"), width = 3, height = 3)                                                                  
+        ggsave(file.path(outdir, "PCA_2_3_cf_plasma.pdf"), width = 4, height = 3)                                                                  
         ggplot(tidydf, aes(x=PC3, y=PC4, colour = type)) + 
 	   geom_point(size = 1) +
 	   xlab(paste0("PC3 (", varexp3, "% of variance explained)")) +
 	   ylab(paste0("PC4 (", varexp4, "% of variance explained)"))
-        ggsave(file.path(outdir, "PCA_3_4_cf_plasma.pdf"), width = 3, height = 3) 
+        ggsave(file.path(outdir, "PCA_3_4_cf_plasma.pdf"), width = 4, height = 3) 
 	}
 
 	# TODO: add sample-sample correlation heatmap
@@ -320,6 +332,7 @@ metasheet = args[3]
 blacklist = args[4]
 restrict_up = args[5]
 restrict_down = args[6]
+
 
 group.plots(filelist=medip.files, metasheet=metasheet,
   outdir = out.dir, blacklist = blacklist, 

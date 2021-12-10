@@ -20,4 +20,4 @@ ggplot(tab, aes(x =sample,y = enrichment)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   ylab("CpG enrichment in reads") +
   xlab("Sample")
-ggsave(out_file,width = 12, height = 5)
+ggsave(out_file,width = 15, height = 5)

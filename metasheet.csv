@@ -1,97 +1,139 @@
-#comma-separated list of sample names and their class 
-#(either control, case, validate_case, validate_control, reference_case, or reference_control)
-#eg:
-#S036,control
-#S037,control
-#S038,control
-#B1,case
-#B2,case
-#B3,case
-
-SampleName,Type,Class,Batch,State,NE_score
-GENP6940_1,NEPC,case,6,De novo,3
-GENP7092_2,NEPC,case,6,De novo,5
-#GENP7559_P1,NEPC,case,6,De novo,5
-#GENP8187_P1,NEPC,case,6,De novo,4
-GENP8237_P1,NEPC,case,6,De novo,4
-GENP8340_P1,NEPC,case,6,De novo,2
-GENP2273-1,NEPC,case,6,Treatment emergent,3
-GENP5888-1,NEPC,case,6,Treatment emergent,2
-GENP6914_1,NEPC,case,6,Treatment emergent,4
-RGENP728_2,NEPC,case,6,Treatment emergent,3
-GENP7192_P1,NEPC,case,6,Treatment emergent,3
-RGENP988_P1,NEPC,case,6,Treatment emergent,2
-#RGENP1566_P1,NEPC,case,6,Treatment emergent,4
-GENP7605_P1,NEPC,case,6,Treatment emergent,3
-#GENP7951_P1,NEPC,case,6,Treatment emergent,4
-#GENP8111_P1,NEPC,case,6,Treatment emergent,6
-GENP8204_P1,NEPC,case,6,Treatment emergent,2
-#GENP8409_P1,NEPC,case,6,Treatment emergent,5
-RGENP2679_P1,NEPC,case,6,Treatment emergent,3
-GENP2384-1,PRAD,control,6,Metastatic PRAD,NA
-RGENP627_2,PRAD,control,6,Metastatic PRAD,NA
-RGENP315-1,PRAD,control,6,Metastatic PRAD,NA
-GENP3260-1,PRAD,control,6,Metastatic PRAD,NA
-RGENP1484_P2,PRAD,control,6,Metastatic PRAD,NA
-##GENP7272_P1,PRAD,control,6,Metastatic PRAD,NA
-RGENP1984_P2,PRAD,control,6,Metastatic PRAD,NA
-GENP7333_P1,PRAD,control,6,Metastatic PRAD,NA
-GENP7631_P1,PRAD,control,6,Metastatic PRAD,NA
-GENP7821_P1,PRAD,control,6,Metastatic PRAD,NA
-RGENP2044_P1,PRAD,control,6,Metastatic PRAD,NA
-RGENP2082_P1,PRAD,control,6,Metastatic PRAD,NA
-RGENP2251_P2,PRAD,control,6,Metastatic PRAD,NA
-GENP2411-1,NEPC,case,3,De novo,3
-GENP4908-1,NEPC,case,3,De novo,2
-#GENP7614_P1,NEPC,case,3,De novo,4
-#GENP5274-1,NEPC,case,3,De novo,4
-##09171-156-PL1,NEPC,case,3,Treatment emergent,NA
-GENP7940_P1,NEPC,case,3,Treatment emergent,2
-GENP7495_P1,NEPC,case,3,Treatment emergent,3
-#RGENP531_1,NEPC,case,3,Treatment emergent,5
-GENP4975-5,PRAD,control,3,Localized PRAD,NA
-GENP6972_1,PRAD,control,3,Localized PRAD,NA
-GENP2931-1,PRAD,control,3,Localized PRAD,NA
-GENP7096_1,PRAD,control,3,Localized PRAD,NA
-RGENP2421_P1,PRAD,control,3,Metastatic PRAD,NA
-RGENP2438_P1,PRAD,control,3,Metastatic PRAD,NA
-RGENP2318_P1,PRAD,control,3,Metastatic PRAD,NA
-GENP7986_P1,PRAD,control,3,Metastatic PRAD,NA
-#GENP8256,NEPC,case,7,Treatment emergent,3
-#GENP8484,NEPC,case,7,De novo,5
-#J17,PRAD,control,-2,Localized PRAD,NA
-#J18,PRAD,control,-2,Localized PRAD,NA
-#J19,PRAD,control,-2,Localized PRAD,NA
-#J20,PRAD,control,-2,Localized PRAD,NA
-#J21,PRAD,control,-2,Localized PRAD,NA
-#J22,PRAD,control,-2,Localized PRAD,NA
-LuCaP_49_2018,NEPC,reference_case,0,LuCaP NEPC,NA
-#LuCaP_208.2,NEPC,reference_case,0,LuCaP NEPC,NA
-LuCaP_173.1,NEPC,reference_case,0,LuCaP NEPC,NA
-LuCaP_93,NEPC,reference_case,0,LuCaP NEPC,NA
-LuCaP_145.1,NEPC,reference_case,0,LuCaP NEPC,NA
-LuCaP_145.2,NEPC,reference_case,0,LuCaP NEPC,NA
-LuCaP_147,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_23.1,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_35,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_73,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_81,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_86.2,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_96,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_105,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_136,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_58,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_70,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_77,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_78,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_92,PRAD,reference_control,0,LuCaP PRAD,NA
-LuCaP_35CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
-LuCaP_78CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
-LuCaP_136CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
-LuCaP_147CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
-LuCaP_23.1CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
-LuCaP_70CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
-LuCaP_73CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
-LuCaP_77CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
-LuCaP_86.2CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
-LuCaP_96CR,PRAD_CR,reference_control,0,LuCaP PRAD,NA
+SampleName,Class,OS,GENP_ID,Group,ctDNA
+#LuCaP_105,reference_control,NA,NA,NA,NA
+#LuCaP_136,reference_control,NA,NA,NA,NA
+#LuCaP_136CR,reference_control,NA,NA,NA,NA
+#LuCaP_145.1,reference_case,NA,NA,NA,NA
+#LuCaP_145.2,reference_case,NA,NA,NA,NA
+#LuCaP_147,reference_control,NA,NA,NA,NA
+#LuCaP_147CR,reference_control,NA,NA,NA,NA
+#LuCaP_173.1,reference_case,NA,NA,NA,NA
+#LuCaP_23.1,reference_control,NA,NA,NA,NA
+#LuCaP_23.1CR,reference_control,NA,NA,NA,NA
+#LuCaP_35,reference_control,NA,NA,NA,NA
+#LuCaP_35CR,reference_control,NA,NA,NA,NA
+#LuCaP_49_2018,reference_case,NA,NA,NA,NA
+#LuCaP_58,reference_control,NA,NA,NA,NA
+#LuCaP_70,reference_control,NA,NA,NA,NA
+#LuCaP_70CR,reference_control,NA,NA,NA,NA
+#LuCaP_73,reference_control,NA,NA,NA,NA
+#LuCaP_73CR,reference_control,NA,NA,NA,NA
+#LuCaP_77,reference_control,NA,NA,NA,NA
+#LuCaP_77CR,reference_control,NA,NA,NA,NA
+#LuCaP_78,reference_control,NA,NA,NA,NA
+#LuCaP_78CR,reference_control,NA,NA,NA,NA
+#LuCaP_81,reference_control,NA,NA,NA,NA
+#LuCaP_86.2,reference_control,NA,NA,NA,NA
+#LuCaP_86.2CR,reference_control,NA,NA,NA,NA
+#LuCaP_92,reference_control,NA,NA,NA,NA
+#LuCaP_93,reference_case,NA,NA,NA,NA
+#LuCaP_96,reference_control,NA,NA,NA,NA
+#LuCaP_96CR,reference_control,NA,NA,NA,NA
+mCRPC137,control,NA,GRCC448,0,0.005391
+mCRPC141,control,NA,GRCC592,0,0.003792
+mCRPC144,control,NA,GRCC621,0,0.01338
+mCRPC146,control,NA,GRCC791,0,0.007201
+mCRPC149,control,NA,GRCC80,0,0.009954
+mCRPC152,control,NA,GRCC842,0,0.006033
+mCRPC154,control,NA,GRCC96,0,0.008913
+mCRPC158,control,NA,GRCC522,0,0.009045
+mCRPC001,control,121.9,09171-118-PL,Test,0.03735
+mCRPC007,control,62.7,RGENP2338_P,Test,0.06667
+mCRPC010,control,43.5,RGENP2925_P,Validation,0.05797
+mCRPC011,control,42.9,RGENP2645_P,Test,0.08229
+mCRPC014,control,78.6,RGENP2428_P,Validation,0.08491
+mCRPC016,control,93.6,RGENP2742_P,Validation,0.07353
+mCRPC018,control,12.7,GENP8561_P,Test,0.1051
+mCRPC019,control,74.2,09171-145-PL,Validation,0.1318
+mCRPC029,control,112.3,RGENP3014_P,Test,0.2884
+mCRPC030,control,48,RGENP2534_P,Test,0.1485
+mCRPC031,control,40.2,RGENP2904_P,Validation,0.1897
+mCRPC036,control,29.4,RGENP2778_P,Validation,0.239
+mCRPC037,control,27.5,GENP8564_P,Validation,0.3031
+mCRPC041,control,69.9,RGENP2776_P,Test,0.7975
+mCRPC048,control,12.3,RGENP1928_P,Validation,0.2716
+mCRPC049,control,5.6,RGENP2441_P,Test,0.3459
+mCRPC053,control,50,RGENP1604_P,Validation,0.4869
+mCRPC054,control,24.4,RGENP2514_P,Validation,0.2396
+mCRPC060,control,14,RGENP1400_P,Test,0.2053
+mCRPC061,control,41.9,RGENP846_P,Validation,0.1425
+mCRPC066,control,55.8,GENP7746_P,Test,0.1421
+mCRPC067,control,43.7,RGENP1735_P,Test,0.3358
+mCRPC070,control,59.6,RGENP3006_P,Validation,0.3906
+mCRPC073,control,54.9,09171-113-PL,Validation,0.04198
+mCRPC074,control,55.9,RGENP2334_P,Test,0.1428
+mCRPC082,control,24.8,RGENP2945_P,Validation,0.1309
+mCRPC091,control,38.4,RGENP2014_P,Test,0.04844
+mCRPC092,control,46.4,RGENP2956_P,Test,0.04844
+mCRPC105,control,5.9,GENP8072_P,Validation,0.09454
+mCRPC108,control,38.5,RGENP1514_P,Test,0.2547
+mCRPC110,control,38,GENP7899_P,Test,0.3551
+mCRPC112,control,15.8,RGENP3082_P,Validation,0.4597
+mCRPC116,control,25.4,RGENP1833_P,Test,0.5802
+mCRPC122,control,23.3,RGENP2134_P,Validation,0.07971
+mCRPC123,control,21.6,GENP7516_P,Validation,0.2468
+mCRPC136,control,NA,RGENP627,Test,0.2857
+mCRPC111,control,2.7,GENP7816_P,Test,0.2125
+mCRPC142,case,10.7,GENP7614,Test,0.1265
+mCRPC051,case,3.1,RGENP988_P2,Test,0.1514
+mCRPC069,case,8.9,GENP7605_P1,Test,0.1279
+mCRPC083,case,38.5,GENP2273-1,Test,0.2323
+mCRPC087,case,9,GENP5888-1,Test,0.06355
+mCRPC109,case,13.9,GENP2411-1,Test,0.7472
+mCRPC115,case,13.5,GENP8204_P1,Test,0.4171
+mCRPC124,case,8.6,GENP8340_P3,Test,0.2358
+mCRPC126,case,14.1,GENP7940_P1,Test,0.05061
+mCRPC135,control,NA,RGENP2318,Validation,0.3088
+mCRPC005,control,45.9,RGENP2351_P,Validation,0.1638
+mCRPC008,control,28.9,RGENP2852_P,Validation,0.06807
+mCRPC009,control,96.4,RGENP2119_P,Validation,0.1874
+mCRPC021,control,106.6,RGENP2560_P,Validation,0.104
+mCRPC023,control,46.3,GENP7838_P,Validation,0.06063
+mCRPC024,control,23.5,RGENP3424_P,Validation,0.03816
+mCRPC026,control,35,RGENP3380_P,Test,0.09365
+mCRPC027,control,79.5,RGENP2522_P,Validation,0.06454
+mCRPC028,control,30.3,RGENP3294_P,Test,0.3734
+mCRPC032,control,57.7,RGENP3382_P,Test,0.2912
+mCRPC033,control,14.3,RGENP2198_P,Test,0.1788
+mCRPC034,control,55.4,RGENP1953_P,Test,0.1668
+mCRPC035,control,55.5,RGENP3031_P,Validation,0.1466
+mCRPC038,control,26.1,RGENP2446_P,Validation,0.1165
+mCRPC039,control,36.4,RGENP1654_P,Validation,0.3542
+mCRPC040,control,11.7,RGENP1633_P,Validation,0.3415
+mCRPC042,control,60,RGENP1699_P,Test,0.3705
+mCRPC043,control,20.5,RGENP1644_P,Validation,0.2411
+mCRPC044,control,28.9,RGENP1895_P,Test,0.2936
+mCRPC045,control,113.6,RGENP1844_P,Validation,0.2839
+mCRPC046,control,61.9,RGENP2686_P,Test,0.1085
+mCRPC047,control,13.8,RGENP2777_P,Test,0.1842
+mCRPC050,control,37.3,RGENP2605_P,Test,0.4559
+mCRPC052,control,9.1,GENP7417_P,Test,0.3784
+mCRPC056,control,11,RGENP3178_P,Validation,0.3859
+mCRPC065,control,58.1,09171-132-PL1,Validation,0.3571
+mCRPC072,control,17.1,RGENP1244_P,Test,0.2597
+mCRPC075,control,80.6,RGENP2429_P,Test,0.2503
+mCRPC076,control,54.6,RGENP1291_P,Test,0.03256
+mCRPC078,control,51.7,09171-155-PL3,Test,0.2975
+mCRPC090,control,69.7,RGENP1857_P,Validation,0.1614
+mCRPC103,control,111.5,RGENP2737_P,Validation,0.2715
+mCRPC106,control,20.7,RGENP3023_P,Test,0.08917
+mCRPC114,control,17,GENP8032_P,Test,0.09658
+mCRPC117,control,6.8,RGENP2315_P,Validation,0.06519
+mCRPC118,control,33.6,RGENP1401_P,Validation,0.2646
+mCRPC120,control,43.8,GENP8665_P1,Test,0.391
+mCRPC130,control,53.9,GENP8106_P,Test,0.1416
+mCRPC134,control,78.6,RGENP2389_P,Validation,0.4318
+mCRPC138,control,NA,GENP2384,Validation,0.06493
+mCRPC150,control,NA,RGENP1984,Test,0.03537
+mCRPC157,control,NA,RGENP315,Validation,0.1531
+mCRPC139,case,NA,GENP8711,Validation,0.3286
+mCRPC143,case,NA,RGENP3838,Validation,0.03432
+mCRPC148,case,NA,RGENP3784,Validation,0.1427
+mCRPC159,case,NA,GENP2531,Validation,0.2681
+mCRPC081,case,NA,09171-156-PL1,Validation,0.2106
+mNEPC001,case,NA,WCMID1,Validation,0.2218
+mNEPC003,case,NA,WCMID3,Validation,0.3154
+mNEPC005,case,NA,WCMID5,Validation,0.1178
+mNEPC006,case,NA,WCMID6,Validation,0.2346
+mNEPC008,case,NA,WCMID8,Validation,0.1542
+mNEPC009,case,NA,WCMID9,Validation,0.433
+mNEPC010,case,NA,WCMID10,Validation,0.2584
